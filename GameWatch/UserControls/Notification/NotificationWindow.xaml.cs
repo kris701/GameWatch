@@ -25,10 +25,6 @@ namespace GameWatch.UserControls.Notification
             Opacity = 0;
             InitializeComponent();
             AllowedTimeLabel.Content = $"Allowed time for {name} exceeded";
-            Top = 0;
-            Left = 0;
-            Height = SystemParameters.PrimaryScreenHeight; 
-            Width = SystemParameters.PrimaryScreenWidth;
         }
 
         private async void AcceptButton_Click(object sender, RoutedEventArgs e)

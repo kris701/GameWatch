@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameWatch.UserControls.Notification"
         mc:Ignorable="d"
-        Title="NotificationWindow" Height="450" Width="800" AllowsTransparency="True" WindowStyle="None" Topmost="True" Background="#D5404042" Loaded="Window_Loaded">
+        Title="NotificationWindow" Height="500" Width="500" AllowsTransparency="True" WindowStyle="None" Topmost="True" Background="#D5404042" Loaded="Window_Loaded" WindowState="Maximized">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <Label x:Name="AllowedTimeLabel" Content="Allowed time for [] exceeded" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>

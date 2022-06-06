@@ -26,7 +26,7 @@ namespace GameWatch.UserControls
         private ITrayWindow _trayWindow;
 
         public UIElement Element { get; }
-        public double TWidth { get; } = 250;
+        public double TWidth { get; } = 400;
         public double THeight { get; } = 450;
         public WatcherSettings(WindowContext context, ITrayWindow trayWindow)
         {
@@ -37,22 +37,11 @@ namespace GameWatch.UserControls
             UpdateList();
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            _context.Watched.Add(
-                new WatchedProcessGroup(
-                    Guid.NewGuid(),
-                    ProcessNameTextbox.Text.Split(",").ToList(),
-                    UINameTextbox.Text,
-                    Int32.Parse(AllowedTimeTextbox.Text)));
-            UpdateList();
-        }
-
         private void UpdateList()
         {
             ActiveWatchersPanel.Children.Clear();
             foreach (var item in _context.Watched)
-                ActiveWatchersPanel.Children.Add(new ActiveWatcher(item));
+                ActiveWatchersPanel.Children.Add(new ActiveWatcher(this, item));
         }
 
         private void AllowedTimeTextbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -62,7 +51,53 @@ namespace GameWatch.UserControls
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            _trayWindow.SwitchView(new MainOverview(_context, _trayWindow));
+            // Check if watchers are valid
+            bool allFine = true;
+            foreach (var child in ActiveWatchersPanel.Children)
+            {
+                if (child is ActiveWatcher watcher)
+                {
+                    allFine = watcher.IsValid;
+                    if (!allFine)
+                        break;
+                }
+            }
+            if (allFine)
+            {
+                foreach (var item in _context.Watched)
+                    item.PassedSeconds = 0;
+                _trayWindow.SwitchView(new MainOverview(_context, _trayWindow));
+            }
+        }
+
+        private void AddNewWatcherButton_Click(object sender, RoutedEventArgs e)
+        {
+            _context.Watched.Add(
+            new WatchedProcessGroup(
+                Guid.NewGuid(),
+                new List<string>(),
+                "",
+                0));
+            UpdateList();
+        }
+
+        public void RemoveWatcher(WatchedProcessGroup watcher)
+        {
+            _context.Watched.Remove(watcher);
+            UpdateList();
+        }
+
+        public async Task BlinkElement(Panel element)
+        {
+            var normalBackground = element.Background;
+            element.Background = Brushes.DarkRed;
+            await Task.Delay(500);
+            element.Background = normalBackground;
+            await Task.Delay(500);
+            element.Background = Brushes.DarkRed;
+            await Task.Delay(500);
+            element.Background = normalBackground;
+            await Task.Delay(500);
         }
     }
 }

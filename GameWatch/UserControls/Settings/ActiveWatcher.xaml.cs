@@ -23,15 +23,20 @@ namespace GameWatch.UserControls
     /// </summary>
     public partial class ActiveWatcher : UserControl
     {
+        private Brush _defaultTextboxBackground;
         private WatchedProcessGroup _watchedProcess;
+        private WatcherSettings _parent;
+        public bool IsValid = true;
 
-        public ActiveWatcher(WatchedProcessGroup watchedProcess)
+        public ActiveWatcher(WatcherSettings parent, WatchedProcessGroup watchedProcess)
         {
             InitializeComponent();
             _watchedProcess = watchedProcess;
+            _parent = parent;
             ProcessNameTextbox.Text = String.Join(",", _watchedProcess.ProcessNames);
             UINameTextbox.Text = _watchedProcess.UIName;
             AllowedTimeTextbox.Text = _watchedProcess.AllowedIntervalSec.ToString();
+            _defaultTextboxBackground = AllowedTimeTextbox.Background;
         }
 
         private void AllowedTimeTextbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -39,13 +44,43 @@ namespace GameWatch.UserControls
             e.Handled = InputHelper.IsOnlyNumbers(e.Text);
         }
 
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            _watchedProcess.ProcessNames = ProcessNameTextbox.Text.Split(",").ToList();
-            _watchedProcess.UIName = UINameTextbox.Text;
-            _watchedProcess.AllowedIntervalSec = Int32.Parse(AllowedTimeTextbox.Text);
-            _watchedProcess.PassedSeconds = 0;
-            _watchedProcess.LastTick = DateTime.UtcNow;
+            _parent.RemoveWatcher(_watchedProcess);
+        }
+
+        private void UIInputChanged(object sender, TextChangedEventArgs e)
+        {
+            IsValid = true;
+            if (ProcessNameTextbox.Text.Split(",").ToList().Count == 0)
+            {
+                ProcessNameTextbox.Background = Brushes.DarkRed;
+                IsValid = false;
+            }
+            else
+                ProcessNameTextbox.Background = _defaultTextboxBackground;
+            if (UINameTextbox.Text == "")
+            {
+                UINameTextbox.Background = Brushes.DarkRed;
+                IsValid = false;
+            }
+            else
+                UINameTextbox.Background = _defaultTextboxBackground;
+            if (AllowedTimeTextbox.Text == "")
+            {
+                AllowedTimeTextbox.Background = Brushes.DarkRed;
+                IsValid = false;
+            }
+            else
+                AllowedTimeTextbox.Background = _defaultTextboxBackground;
+            if (IsValid)
+            {
+                _watchedProcess.ProcessNames = ProcessNameTextbox.Text.Split(",").ToList();
+                _watchedProcess.UIName = UINameTextbox.Text;
+                _watchedProcess.AllowedIntervalSec = Int32.Parse(AllowedTimeTextbox.Text);
+                _watchedProcess.PassedSeconds = 0;
+                _watchedProcess.LastTick = DateTime.UtcNow;
+            }
         }
     }
 }

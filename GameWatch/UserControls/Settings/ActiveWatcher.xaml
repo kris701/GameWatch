@@ -5,14 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GameWatch.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="200" Margin="5">
+             d:DesignHeight="100" d:DesignWidth="400" Margin="5">
     <StackPanel Background="#FF3E4858">
-        <Label Content="UI Name" Style="{StaticResource StandartLabelStyle}"/>
-        <TextBox x:Name="UINameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
-        <Label Content="Process Name" Style="{StaticResource StandartLabelStyle}"/>
-        <TextBox x:Name="ProcessNameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
-        <Label Content="Allowed Time (Sec)" Style="{StaticResource StandartLabelStyle}"/>
-        <TextBox x:Name="AllowedTimeTextbox" PreviewTextInput="AllowedTimeTextbox_PreviewTextInput" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
-        <Button x:Name="UpdateButton" Content="Update" Click="UpdateButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Name" Style="{StaticResource StandartLabelStyle}"/>
+            <TextBox Grid.Column="1" x:Name="UINameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}" TextChanged="UIInputChanged"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Process'" Style="{StaticResource StandartLabelStyle}"/>
+            <TextBox Grid.Column="1" x:Name="ProcessNameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}" TextChanged="UIInputChanged"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Allowed Time" Style="{StaticResource StandartLabelStyle}"/>
+            <TextBox Grid.Column="1" x:Name="AllowedTimeTextbox" PreviewTextInput="AllowedTimeTextbox_PreviewTextInput" TextChanged="UIInputChanged" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
+        </Grid>
+        <Button Grid.Column="1" x:Name="RemoveButton" Content="Remove" Click="RemoveButton_Click" Margin="5" Style="{StaticResource StandartExitButtonStyle}"/>
     </StackPanel>
 </UserControl>

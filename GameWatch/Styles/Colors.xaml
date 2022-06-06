@@ -8,8 +8,18 @@
 
     <SolidColorBrush x:Key="StandartButtonFrontColor" Color="White" />
     <SolidColorBrush x:Key="StandartDisabledButtonColor" Color="Gray" />
-    <SolidColorBrush x:Key="StandartButtonColor" Color="Transparent" />
+    <SolidColorBrush x:Key="StandartButtonColor" Color="#FF1B212E" />
     <SolidColorBrush x:Key="StandartButtonColorHover" Color="#FFDED3D3" />
+
+    <SolidColorBrush x:Key="StandartRedButtonFrontColor" Color="White" />
+    <SolidColorBrush x:Key="StandartRedDisabledButtonColor" Color="DarkRed" />
+    <SolidColorBrush x:Key="StandartRedButtonColor" Color="#FF830000" />
+    <SolidColorBrush x:Key="StandartRedButtonColorHover" Color="#FFAE0120" />
+
+    <SolidColorBrush x:Key="StandartGreenButtonFrontColor" Color="White" />
+    <SolidColorBrush x:Key="StandartGreenDisabledButtonColor" Color="DarkGreen" />
+    <SolidColorBrush x:Key="StandartGreenButtonColor" Color="#004a06" />
+    <SolidColorBrush x:Key="StandartGreenButtonColorHover" Color="#00800b" />
 
     <SolidColorBrush x:Key="StandartTextboxFrontColor" Color="White" />
     <SolidColorBrush x:Key="StandartTextboxBackgroundColor" Color="#FF3A3E46" />

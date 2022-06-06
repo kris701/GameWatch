@@ -6,8 +6,13 @@
              xmlns:local="clr-namespace:GameWatch.UserControls.Overview"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="#721D2B40">
-    <StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
             <Button x:Name="SettingsButton" Content="⚙️" Click="SettingsButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
             <GridSplitter Width="2" Background="#FF2D2D5F"/>
             <Button x:Name="StartAllButton" Content="Start All Watches" Click="StartAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
@@ -15,11 +20,11 @@
             <Button x:Name="StopAllButton" Content="Stop All Watches" Click="StopAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
             <GridSplitter Width="2" Background="#FF2D2D5F"/>
         </StackPanel>
-        <GridSplitter HorizontalAlignment="Stretch" Height="2" Background="#FF2D2D5F"/>
-        <ScrollViewer Background="#FF3E4858" Margin="5">
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="2" Background="#FF2D2D5F"/>
+        <ScrollViewer Grid.Row="2" Background="#FF2B313C" Margin="5">
             <StackPanel x:Name="WatchersPanel">
 
             </StackPanel>
         </ScrollViewer>
-    </StackPanel>
+    </Grid>
 </UserControl>

@@ -40,6 +40,8 @@ namespace GameWatch.UserControls.Overview
                 _context.Watchers.Add(new WatcherService(item));
             foreach (var watcher in _context.Watchers)
                 WatchersPanel.Children.Add(new WatcherOverview(watcher));
+            if (WatchersPanel.Children.Count == 0)
+                WatchersPanel.Children.Add(new AddNewWatchersLabelControl());
             ToggleWatchers(true);
         }
 
