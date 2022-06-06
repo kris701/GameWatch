@@ -12,23 +12,19 @@ namespace GameWatch.Services
 {
     internal class WatcherService : IWatcherService
     {
-        private readonly int _refreshRateSec = 10;
+        private readonly int _refreshRateSec = 1;
         private DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
         public INotificationService Notifier { get; }
-        public WatchedProcess WatchModel { get; }
+        public WatchedProcessGroup WatchModelGroup { get; }
 
-        public WatcherService(WatchedProcess watchModel)
+        public WatcherService(WatchedProcessGroup watchModel)
         {
-            WatchModel = watchModel;
+            WatchModelGroup = watchModel;
             Notifier = new NotificationService();
 
             _dispatcherTimer.Tick += Ticker;
             _dispatcherTimer.Interval = new TimeSpan(0, 0, _refreshRateSec);
-        }
-
-        public WatcherService(string path) : this(IOHelper.LoadJsonObject<WatchedProcess>(path))
-        {
         }
 
         public void StartWatch()
@@ -41,23 +37,20 @@ namespace GameWatch.Services
             _dispatcherTimer.Stop();
         }
 
-        public void SaveProgress(string path)
-        {
-            IOHelper.SaveJsonObject(path, WatchModel);
-        }
-
         private void Ticker(object? sender, EventArgs e)
         {
-            var proc = Process.GetProcessesByName(WatchModel.ProcessName);
-            if (proc.Length > 0)
+            var list = new List<Process>();
+            foreach(var process in WatchModelGroup.ProcessNames)
+                list.AddRange(Process.GetProcessesByName(process).ToList());
+            if (list.Count > 0)
             {
-                if (WatchModel.LastTick.DayOfYear != DateTime.UtcNow.DayOfYear)
-                    WatchModel.PassedSeconds = 0;
+                if (WatchModelGroup.LastTick.DayOfYear != DateTime.UtcNow.DayOfYear)
+                    WatchModelGroup.PassedSeconds = 0;
                 else
-                    WatchModel.PassedSeconds += _refreshRateSec;
-                WatchModel.LastTick = DateTime.UtcNow;
+                    WatchModelGroup.PassedSeconds += _refreshRateSec;
+                WatchModelGroup.LastTick = DateTime.UtcNow;
 
-                if (WatchModel.PassedSeconds > WatchModel.AllowedIntervalSec)
+                if (WatchModelGroup.PassedSeconds > WatchModelGroup.AllowedIntervalSec)
                     Notifier.Notify("aaa");
             }
         }

@@ -11,7 +11,7 @@
         <TextBox x:Name="UINameTextbox"/>
         <Label Content="Process Name"/>
         <TextBox x:Name="ProcessNameTextbox" />
-        <Label Content="Allowed Time"/>
+        <Label Content="Allowed Time (Sec)"/>
         <TextBox x:Name="AllowedTimeTextbox" PreviewTextInput="AllowedTimeTextbox_PreviewTextInput"/>
         <Button x:Name="UpdateButton" Content="Update" Click="UpdateButton_Click"/>
     </StackPanel>

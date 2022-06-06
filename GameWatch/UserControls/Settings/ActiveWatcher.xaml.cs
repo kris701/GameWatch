@@ -23,13 +23,13 @@ namespace GameWatch.UserControls
     /// </summary>
     public partial class ActiveWatcher : UserControl
     {
-        private WatchedProcess _watchedProcess;
+        private WatchedProcessGroup _watchedProcess;
 
-        public ActiveWatcher(WatchedProcess watchedProcess)
+        public ActiveWatcher(WatchedProcessGroup watchedProcess)
         {
             InitializeComponent();
             _watchedProcess = watchedProcess;
-            ProcessNameTextbox.Text = _watchedProcess.ProcessName;
+            ProcessNameTextbox.Text = String.Join(",", _watchedProcess.ProcessNames);
             UINameTextbox.Text = _watchedProcess.UIName;
             AllowedTimeTextbox.Text = _watchedProcess.AllowedIntervalSec.ToString();
         }
@@ -41,7 +41,7 @@ namespace GameWatch.UserControls
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            _watchedProcess.ProcessName = ProcessNameTextbox.Text;
+            _watchedProcess.ProcessNames = ProcessNameTextbox.Text.Split(",").ToList();
             _watchedProcess.UIName = UINameTextbox.Text;
             _watchedProcess.AllowedIntervalSec = Int32.Parse(AllowedTimeTextbox.Text);
             _watchedProcess.PassedSeconds = 0;

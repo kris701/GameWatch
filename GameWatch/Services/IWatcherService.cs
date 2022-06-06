@@ -10,9 +10,8 @@ namespace GameWatch.Services
     internal interface IWatcherService
     {
         public INotificationService Notifier { get; }
-        public WatchedProcess WatchModel { get; }
+        public WatchedProcessGroup WatchModelGroup { get; }
         public void StartWatch();
         public void StopWatch();
-        public void SaveProgress(string path);
     }
 }

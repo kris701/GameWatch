@@ -1,8 +1,11 @@
-﻿using GameWatch.Models;
+﻿using GameWatch.Helpers;
+using GameWatch.Models;
+using GameWatch.Services;
 using GameWatch.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,18 +27,71 @@ namespace GameWatch
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<WatchedProcess> _watched;
+        private string _savePath = "saves/";
+        private List<WatchedProcessGroup> _watched;
+        private List<IWatcherService> _watchers;
 
         public MainWindow()
         {
             InitializeComponent();
-            _watched = new List<WatchedProcess>();
+            _watched = new List<WatchedProcessGroup>();
+            _watchers = new List<IWatcherService>();
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             var window = new WatcherSettings(_watched);
+            foreach (var watcher in _watchers)
+                watcher.StopWatch();
+            _watchers = new List<IWatcherService>();
             window.ShowDialog();
+            GenerateAllWatchers();
+            GenerateUIWatcherElements();
+        }
+
+        private void StartAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var watcher in _watchers)
+                watcher.StartWatch();
+        }
+
+        private void StopAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var watcher in _watchers)
+                watcher.StopWatch();
+        }
+
+        private void GenerateAllWatchers()
+        {
+            _watchers.Clear();
+            foreach (var item in _watched)
+                _watchers.Add(new WatcherService(item));
+        }
+
+        private void GenerateUIWatcherElements()
+        {
+            WatchersPanel.Children.Clear();
+            foreach (var item in _watched)
+                WatchersPanel.Children.Add(new WatcherOverview(item));
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!Directory.Exists(_savePath))
+                Directory.CreateDirectory(_savePath);
+            foreach (var watchedProcess in _watched)
+                IOHelper.SaveJsonObject($"{_savePath}/{watchedProcess.ID}.json", watchedProcess);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!Directory.Exists(_savePath))
+                Directory.CreateDirectory(_savePath);
+            _watched = IOHelper.LoadJsonObjects<WatchedProcessGroup>(_savePath);
+            GenerateAllWatchers();
+            GenerateUIWatcherElements();
+            foreach (var watcher in _watchers)
+                watcher.StartWatch();
         }
     }
 }

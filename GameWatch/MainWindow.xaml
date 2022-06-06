@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameWatch"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing" Loaded="Window_Loaded">
     <StackPanel>
         <Button x:Name="SettingsButton" Content="Settings" Click="SettingsButton_Click"/>
+        <Button x:Name="StartAllButton" Content="Start All Watches" Click="StartAllButton_Click"/>
+        <Button x:Name="StopAllButton" Content="Stop All Watches" Click="StopAllButton_Click"/>
+
+        <StackPanel x:Name="WatchersPanel">
+            
+        </StackPanel>
     </StackPanel>
 </Window>

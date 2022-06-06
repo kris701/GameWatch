@@ -21,8 +21,8 @@ namespace GameWatch.UserControls
     /// </summary>
     public partial class WatcherSettings : Window
     {
-        private List<WatchedProcess> _watched;
-        public WatcherSettings(List<WatchedProcess> watched)
+        private List<WatchedProcessGroup> _watched;
+        public WatcherSettings(List<WatchedProcessGroup> watched)
         {
             InitializeComponent();
             _watched = watched;
@@ -32,8 +32,9 @@ namespace GameWatch.UserControls
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             _watched.Add(
-                new WatchedProcess(
-                    ProcessNameTextbox.Text,
+                new WatchedProcessGroup(
+                    Guid.NewGuid(),
+                    ProcessNameTextbox.Text.Split(",").ToList(),
                     UINameTextbox.Text,
                     Int32.Parse(AllowedTimeTextbox.Text)));
             UpdateList();
