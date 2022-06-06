@@ -3,16 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:GameWatch"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" Background="#721D2B40" Opacity="0.8">
-    <StackPanel>
-        <Button x:Name="SettingsButton" Content="⚙️" Click="SettingsButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
-        <Button x:Name="StartAllButton" Content="Start All Watches" Click="StartAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
-        <Button x:Name="StopAllButton" Content="Stop All Watches" Click="StopAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
-
-        <StackPanel x:Name="WatchersPanel">
-            
-        </StackPanel>
+        Title="GameWatch" Height="300" Width="800" Closing="Window_Closing" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" Background="#721D2B40" Opacity="0.8" Deactivated="Window_Deactivated">
+    <StackPanel x:Name="MainPanel">
+        <tb:TaskbarIcon x:Name="myNotifyIcon"
+                        Visibility="Visible"
+                        ToolTipText="GameWatch - Double click to open" 
+                        PopupActivation="All" 
+                        TrayMouseDoubleClick="myNotifyIcon_PopupOpened"
+                        TrayRightMouseDown="myNotifyIcon_TrayRightMouseDown"/>
     </StackPanel>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using GameWatch.Helpers;
 using GameWatch.Models;
+using GameWatch.UserControls.Overview;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +20,26 @@ namespace GameWatch.UserControls
     /// <summary>
     /// Interaction logic for WatcherSettings.xaml
     /// </summary>
-    public partial class WatcherSettings : Window
+    public partial class WatcherSettings : UserControl, TrayWindowSwitchable
     {
-        private List<WatchedProcessGroup> _watched;
-        public WatcherSettings(List<WatchedProcessGroup> watched)
+        private WindowContext _context;
+        private ITrayWindow _trayWindow;
+
+        public UIElement Element { get; }
+        public double TWidth { get; } = 250;
+        public double THeight { get; } = 450;
+        public WatcherSettings(WindowContext context, ITrayWindow trayWindow)
         {
             InitializeComponent();
-            _watched = watched;
+            _context = context;
+            _trayWindow = trayWindow;
+            Element = this;
             UpdateList();
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            _watched.Add(
+            _context.Watched.Add(
                 new WatchedProcessGroup(
                     Guid.NewGuid(),
                     ProcessNameTextbox.Text.Split(",").ToList(),
@@ -43,7 +51,7 @@ namespace GameWatch.UserControls
         private void UpdateList()
         {
             ActiveWatchersPanel.Children.Clear();
-            foreach (var item in _watched)
+            foreach (var item in _context.Watched)
                 ActiveWatchersPanel.Children.Add(new ActiveWatcher(item));
         }
 
@@ -52,14 +60,9 @@ namespace GameWatch.UserControls
             e.Handled = InputHelper.IsOnlyNumbers(e.Text);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            BlurHelper.EnableBlur(this);
-        }
-
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            _trayWindow.SwitchView(new MainOverview(_context, _trayWindow));
         }
     }
 }

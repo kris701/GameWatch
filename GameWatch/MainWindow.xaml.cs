@@ -2,6 +2,7 @@
 using GameWatch.Models;
 using GameWatch.Services;
 using GameWatch.UserControls;
+using GameWatch.UserControls.Overview;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,75 +26,78 @@ namespace GameWatch
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, ITrayWindow
     {
         private string _savePath = "saves/";
-        private List<WatchedProcessGroup> _watched;
-        private List<IWatcherService> _watchers;
+        private WindowContext _context;
 
         public MainWindow()
         {
             InitializeComponent();
-            _watched = new List<WatchedProcessGroup>();
-            _watchers = new List<IWatcherService>();
+            _context = new WindowContext(new List<WatchedProcessGroup>(), new List<IWatcherService>());
+            SwitchView(new MainOverview(_context, this));
         }
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        public void SwitchView(TrayWindowSwitchable toElement)
         {
-            var window = new WatcherSettings(_watched);
-            ToggleWatchers(false);
-            WatchersPanel.Children.Clear();
-            window.ShowDialog();
-            GenerateAllWatchers();
-        }
-
-        private void StartAllButton_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleWatchers(true);
-        }
-
-        private void StopAllButton_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleWatchers(false);
-        }
-
-        private void GenerateAllWatchers()
-        {
-            WatchersPanel.Children.Clear();
-            _watchers.Clear();
-            foreach (var item in _watched)
-            {
-                var newWatcher = new WatcherService(item);
-                _watchers.Add(newWatcher);
-                WatchersPanel.Children.Add(new WatcherOverview(newWatcher));
-            }
+            MainPanel.Children.Clear();
+            MainPanel.Children.Add(toElement.Element);
+            Width = toElement.TWidth;
+            Height = toElement.THeight;
+            this.Left = SystemParameters.PrimaryScreenWidth - this.Width - 10;
+            this.Top = SystemParameters.PrimaryScreenHeight - this.Height - 45;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (!Directory.Exists(_savePath))
                 Directory.CreateDirectory(_savePath);
-            foreach (var watchedProcess in _watched)
+            foreach (var watchedProcess in _context.Watched)
                 IOHelper.SaveJsonObject($"{_savePath}/{watchedProcess.ID}.json", watchedProcess);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            myNotifyIcon.Icon = new System.Drawing.Icon("powericon.ico");
+            SetupContextMenu();
+            Visibility = Visibility.Hidden;
             BlurHelper.EnableBlur(this);
             if (!Directory.Exists(_savePath))
                 Directory.CreateDirectory(_savePath);
-            _watched = IOHelper.LoadJsonObjects<WatchedProcessGroup>(_savePath);
-            GenerateAllWatchers();
-            ToggleWatchers(true);
+            _context.Watched.Clear();
+            _context.Watched.AddRange(IOHelper.LoadJsonObjects<WatchedProcessGroup>(_savePath));
         }
 
-        private void ToggleWatchers(bool doRun)
+        private void myNotifyIcon_TrayRightMouseDown(object sender, RoutedEventArgs e)
         {
-            foreach (var watcher in _watchers)
-                if (doRun)
-                    watcher.StartWatch();
-                else
-                    watcher.StopWatch();
+            myNotifyIcon.ContextMenu.IsOpen = true;
+        }
+
+        private void myNotifyIcon_PopupOpened(object sender, RoutedEventArgs e)
+        {
+            Visibility = Visibility.Visible;
+            Activate();
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            Visibility = Visibility.Hidden;
+        }
+
+        private void SetupContextMenu()
+        {
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem item = new MenuItem();
+            item.Header = "Exit";
+            item.Click += ExitButton_Click;
+            contextMenu.Items.Add(item);
+            myNotifyIcon.ContextMenu = contextMenu;
+            myNotifyIcon.ContextMenu.IsOpen = false;
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
