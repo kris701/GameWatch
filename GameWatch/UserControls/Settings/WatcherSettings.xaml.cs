@@ -51,5 +51,15 @@ namespace GameWatch.UserControls
         {
             e.Handled = InputHelper.IsOnlyNumbers(e.Text);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            BlurHelper.EnableBlur(this);
+        }
+
+        private void AcceptButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

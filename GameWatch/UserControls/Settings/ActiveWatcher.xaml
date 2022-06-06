@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:GameWatch.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="200" Margin="5">
-    <StackPanel>
-        <Label Content="UI Name"/>
-        <TextBox x:Name="UINameTextbox"/>
-        <Label Content="Process Name"/>
-        <TextBox x:Name="ProcessNameTextbox" />
-        <Label Content="Allowed Time (Sec)"/>
-        <TextBox x:Name="AllowedTimeTextbox" PreviewTextInput="AllowedTimeTextbox_PreviewTextInput"/>
-        <Button x:Name="UpdateButton" Content="Update" Click="UpdateButton_Click"/>
+    <StackPanel Background="#FF3E4858">
+        <Label Content="UI Name" Style="{StaticResource StandartLabelStyle}"/>
+        <TextBox x:Name="UINameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
+        <Label Content="Process Name" Style="{StaticResource StandartLabelStyle}"/>
+        <TextBox x:Name="ProcessNameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
+        <Label Content="Allowed Time (Sec)" Style="{StaticResource StandartLabelStyle}"/>
+        <TextBox x:Name="AllowedTimeTextbox" PreviewTextInput="AllowedTimeTextbox_PreviewTextInput" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
+        <Button x:Name="UpdateButton" Content="Update" Click="UpdateButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
     </StackPanel>
 </UserControl>

@@ -79,6 +79,7 @@ namespace GameWatch
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            BlurHelper.EnableBlur(this);
             if (!Directory.Exists(_savePath))
                 Directory.CreateDirectory(_savePath);
             _watched = IOHelper.LoadJsonObjects<WatchedProcessGroup>(_savePath);

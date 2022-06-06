@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+    <Style TargetType="Label" x:Key="StandartLabelStyle">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{StaticResource StandartFrontColor}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="{StaticResource StandartFont}"/>
+    </Style>
+
+    <Style TargetType="Button" x:Key="StandartButtonStyle">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource StandartButtonFrontColor}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource StandartFont}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Overlay" Background="{DynamicResource StandartButtonColor}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Overlay" Property="Background" Value="{DynamicResource StandartDisabledButtonColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property = "Foreground" Value = "{DynamicResource StandartButtonColorHover}"/>
+                            <Setter Property = "Cursor" Value="Hand"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="StandartTextBoxStyle">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource StandartTextboxFrontColor}"/>
+        <Setter Property="Background" Value="{DynamicResource StandartTextboxBackgroundColor}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource StandartFont}"/>
+    </Style>
+</ResourceDictionary>

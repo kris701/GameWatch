@@ -5,26 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameWatch.UserControls"
         mc:Ignorable="d"
-        Title="WatcherSettings" Height="450" Width="250">
-    <ScrollViewer>
-        <StackPanel>
-            <Label Content="Watcher Settings" FontSize="20"/>
-            <StackPanel Margin="5">
-                <Label Content="Add Watcher"/>
-                <Label Content="Process Name:"/>
-                <TextBox x:Name="ProcessNameTextbox"/>
-                <Label Content="UI Name:"/>
-                <TextBox x:Name="UINameTextbox"/>
-                <Label Content="Allowed Time (Sec):"/>
-                <TextBox x:Name="AllowedTimeTextbox" PreviewTextInput="AllowedTimeTextbox_PreviewTextInput"/>
-                <Button x:Name="AddButton" Content="Add Watcher" Click="AddButton_Click"/>
-            </StackPanel>
-
-            <Label Content="Active Watchers"/>
-            <StackPanel x:Name="ActiveWatchersPanel">
-                
-            </StackPanel>
-
+        Title="WatcherSettings" Height="450" Width="250" AllowsTransparency="True" WindowStyle="None" Background="#721D2B40" Opacity="0.8" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="190"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        
+        <Label Content="Watcher Settings" FontSize="20" Style="{StaticResource StandartLabelStyle}"/>
+        <StackPanel Grid.Row="1" Margin="5" Background="#FF3E4858">
+            <Label Content="Add Watcher" Style="{StaticResource StandartLabelStyle}"/>
+            <Label Content="Process Name:" Style="{StaticResource StandartLabelStyle}"/>
+            <TextBox x:Name="ProcessNameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
+            <Label Content="UI Name:" Style="{StaticResource StandartLabelStyle}"/>
+            <TextBox x:Name="UINameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
+            <Label Content="Allowed Time (Sec):" Style="{StaticResource StandartLabelStyle}"/>
+            <TextBox x:Name="AllowedTimeTextbox" PreviewTextInput="AllowedTimeTextbox_PreviewTextInput" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
+            <Button x:Name="AddButton" Content="Add Watcher" Click="AddButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
         </StackPanel>
-    </ScrollViewer>
+
+        <Label Grid.Row="2" Content="Active Watchers" Style="{StaticResource StandartLabelStyle}"/>
+        <ScrollViewer Grid.Row="3" Background="#FF3E4858" Margin="5">
+            <StackPanel x:Name="ActiveWatchersPanel">
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Grid.Row="4" x:Name="AcceptButton" Content="Accept" Margin="5" Click="AcceptButton_Click" Style="{StaticResource StandartButtonStyle}"/>
+    </Grid>
 </Window>

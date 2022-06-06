@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameWatch"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" Background="#721D2B40" Opacity="0.8">
     <StackPanel>
-        <Button x:Name="SettingsButton" Content="Settings" Click="SettingsButton_Click"/>
-        <Button x:Name="StartAllButton" Content="Start All Watches" Click="StartAllButton_Click"/>
-        <Button x:Name="StopAllButton" Content="Stop All Watches" Click="StopAllButton_Click"/>
+        <Button x:Name="SettingsButton" Content="⚙️" Click="SettingsButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+        <Button x:Name="StartAllButton" Content="Start All Watches" Click="StartAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+        <Button x:Name="StopAllButton" Content="Stop All Watches" Click="StopAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
 
         <StackPanel x:Name="WatchersPanel">
             

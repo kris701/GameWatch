@@ -39,6 +39,7 @@ namespace GameWatch.UserControls.Notification
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            BlurHelper.EnableBlur(this);
             await FadeHelper.FadeIn(this, 0.05, 10);
         }
     }
