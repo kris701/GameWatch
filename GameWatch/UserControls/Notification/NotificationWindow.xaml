@@ -1,0 +1,15 @@
+﻿<Window x:Class="GameWatch.UserControls.Notification.NotificationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameWatch.UserControls.Notification"
+        mc:Ignorable="d"
+        Title="NotificationWindow" Height="450" Width="800" AllowsTransparency="True" WindowStyle="None" Topmost="True" Background="#D5404042" Loaded="Window_Loaded">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Label x:Name="AllowedTimeLabel" Content="Allowed time for [] exceeded" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
+            <Button x:Name="AcceptButton" Content="Ok" Click="AcceptButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

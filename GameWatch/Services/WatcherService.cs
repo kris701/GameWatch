@@ -15,6 +15,7 @@ namespace GameWatch.Services
         private readonly int _refreshRateSec = 1;
         private DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
+        public WatcherStatus Status { get; internal set; }
         public INotificationService Notifier { get; }
         public WatchedProcessGroup WatchModelGroup { get; }
 
@@ -30,11 +31,13 @@ namespace GameWatch.Services
         public void StartWatch()
         {
             _dispatcherTimer.Start();
+            Status = WatcherStatus.Running;
         }
 
         public void StopWatch()
         {
             _dispatcherTimer.Stop();
+            Status = WatcherStatus.Stopped;
         }
 
         private void Ticker(object? sender, EventArgs e)
@@ -51,7 +54,12 @@ namespace GameWatch.Services
                 WatchModelGroup.LastTick = DateTime.UtcNow;
 
                 if (WatchModelGroup.PassedSeconds > WatchModelGroup.AllowedIntervalSec)
-                    Notifier.Notify("aaa");
+                {
+                    Notifier.Notify(WatchModelGroup.UIName);
+                    Status = WatcherStatus.StoppedByAllowence;
+                    WatchModelGroup.PassedSeconds = 0;
+                    StopWatch();
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using GameWatch.Models;
+using GameWatch.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,18 +22,19 @@ namespace GameWatch.UserControls
     /// </summary>
     public partial class WatcherOverview : UserControl
     {
-        public WatchedProcessGroup WatchedProcess { get; set; }
+        public IWatcherService Watcher { get; set; }
 
-        public WatcherOverview(WatchedProcessGroup watchedProcess)
+        public WatcherOverview(IWatcherService watchedProcess)
         {
-            WatchedProcess = watchedProcess;
-            WatchedProcess.Ticked += UpdateData;
+            Watcher = watchedProcess;
+            Watcher.WatchModelGroup.Ticked += UpdateData;
             InitializeComponent();
         }
 
         private void UpdateData()
         {
-            PassedTimeLabel.Content = WatchedProcess.PassedSeconds;
+            PassedTimeLabel.Content = Watcher.WatchModelGroup.PassedSeconds;
+            UINameLabel.Content = $"Name [{Watcher.Status}]";
         }
     }
 }

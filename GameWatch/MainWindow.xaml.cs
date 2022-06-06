@@ -41,38 +41,32 @@ namespace GameWatch
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             var window = new WatcherSettings(_watched);
-            foreach (var watcher in _watchers)
-                watcher.StopWatch();
-            _watchers = new List<IWatcherService>();
+            ToggleWatchers(false);
+            WatchersPanel.Children.Clear();
             window.ShowDialog();
             GenerateAllWatchers();
-            GenerateUIWatcherElements();
         }
 
         private void StartAllButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var watcher in _watchers)
-                watcher.StartWatch();
+            ToggleWatchers(true);
         }
 
         private void StopAllButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var watcher in _watchers)
-                watcher.StopWatch();
+            ToggleWatchers(false);
         }
 
         private void GenerateAllWatchers()
         {
+            WatchersPanel.Children.Clear();
             _watchers.Clear();
             foreach (var item in _watched)
-                _watchers.Add(new WatcherService(item));
-        }
-
-        private void GenerateUIWatcherElements()
-        {
-            WatchersPanel.Children.Clear();
-            foreach (var item in _watched)
-                WatchersPanel.Children.Add(new WatcherOverview(item));
+            {
+                var newWatcher = new WatcherService(item);
+                _watchers.Add(newWatcher);
+                WatchersPanel.Children.Add(new WatcherOverview(newWatcher));
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -89,9 +83,16 @@ namespace GameWatch
                 Directory.CreateDirectory(_savePath);
             _watched = IOHelper.LoadJsonObjects<WatchedProcessGroup>(_savePath);
             GenerateAllWatchers();
-            GenerateUIWatcherElements();
+            ToggleWatchers(true);
+        }
+
+        private void ToggleWatchers(bool doRun)
+        {
             foreach (var watcher in _watchers)
-                watcher.StartWatch();
+                if (doRun)
+                    watcher.StartWatch();
+                else
+                    watcher.StopWatch();
         }
     }
 }

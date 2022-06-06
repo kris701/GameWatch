@@ -7,11 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Margin="5">
     <StackPanel Background="Gray">
-        <Label Content="Name" FontSize="20" FontStyle="Oblique"/>
-        <Label x:Name="UINameLabel" FontSize="20" Content="{Binding WatchedProcess.UIName, ElementName=Root}"/>
+        <Label x:Name="UINameLabel" Content="Name [Status]" FontSize="20" FontStyle="Oblique"/>
+        <Label FontSize="20" Content="{Binding Watcher.WatchModelGroup.UIName, ElementName=Root}"/>
         <Label Content="Passed" FontStyle="Oblique"/>
-        <Label x:Name="PassedTimeLabel" Content="{Binding WatchedProcess.PassedSeconds, ElementName=Root, Mode=OneWay}"/>
+        <Label x:Name="PassedTimeLabel" Content="{Binding Watcher.WatchModelGroup.PassedSeconds, ElementName=Root, Mode=OneWay}"/>
         <Label Content="Allowed" FontStyle="Oblique"/>
-        <Label x:Name="AllowedTimeLabel" Content="{Binding WatchedProcess.AllowedIntervalSec, ElementName=Root}"/>
+        <Label x:Name="AllowedTimeLabel" Content="{Binding Watcher.WatchModelGroup.AllowedIntervalSec, ElementName=Root}"/>
     </StackPanel>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameWatch.UserControls.Notification;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,8 @@ namespace GameWatch.Services
     {
         public void Notify(string text)
         {
-            MessageBox.Show(text);
+            var window = new NotificationWindow(text);
+            window.Show();
         }
     }
 }

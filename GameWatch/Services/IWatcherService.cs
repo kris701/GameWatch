@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace GameWatch.Services
 {
-    internal interface IWatcherService
+    public enum WatcherStatus { NotRunYet, Stopped, StoppedByAllowence, Running }
+    public interface IWatcherService
     {
+        public WatcherStatus Status { get; }
         public INotificationService Notifier { get; }
         public WatchedProcessGroup WatchModelGroup { get; }
         public void StartWatch();

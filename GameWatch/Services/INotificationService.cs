@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameWatch.Services
 {
-    internal interface INotificationService
+    public interface INotificationService
     {
         public void Notify(string text);
     }
