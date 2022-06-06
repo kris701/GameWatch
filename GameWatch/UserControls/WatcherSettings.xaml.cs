@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameWatch.Helpers;
+using GameWatch.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,34 @@ namespace GameWatch.UserControls
     /// </summary>
     public partial class WatcherSettings : Window
     {
-        public WatcherSettings()
+        private List<WatchedProcess> _watched;
+        public WatcherSettings(List<WatchedProcess> watched)
         {
             InitializeComponent();
+            _watched = watched;
+            UpdateList();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            _watched.Add(
+                new WatchedProcess(
+                    ProcessNameTextbox.Text,
+                    UINameTextbox.Text,
+                    Int32.Parse(AllowedTimeTextbox.Text)));
+            UpdateList();
+        }
+
+        private void UpdateList()
+        {
+            ActiveWatchersPanel.Children.Clear();
+            foreach (var item in _watched)
+                ActiveWatchersPanel.Children.Add(new ActiveWatcher(item));
+        }
+
+        private void AllowedTimeTextbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = InputHelper.IsOnlyNumbers(e.Text);
         }
     }
 }

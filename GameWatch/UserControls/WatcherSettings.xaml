@@ -6,7 +6,25 @@
         xmlns:local="clr-namespace:GameWatch.UserControls"
         mc:Ignorable="d"
         Title="WatcherSettings" Height="450" Width="250">
-    <Grid>
-        
-    </Grid>
+    <ScrollViewer>
+        <StackPanel>
+            <Label Content="Watcher Settings" FontSize="20"/>
+            <StackPanel Margin="5">
+                <Label Content="Add Watcher"/>
+                <Label Content="Process Name:"/>
+                <TextBox x:Name="ProcessNameTextbox"/>
+                <Label Content="UI Name:"/>
+                <TextBox x:Name="UINameTextbox"/>
+                <Label Content="Allowed Time (Sec):"/>
+                <TextBox x:Name="AllowedTimeTextbox" PreviewTextInput="AllowedTimeTextbox_PreviewTextInput"/>
+                <Button x:Name="AddButton" Content="Add Watcher" Click="AddButton_Click"/>
+            </StackPanel>
+
+            <Label Content="Active Watchers"/>
+            <StackPanel x:Name="ActiveWatchersPanel">
+                
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
 </Window>

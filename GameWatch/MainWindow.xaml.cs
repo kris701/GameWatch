@@ -24,19 +24,18 @@ namespace GameWatch
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<WatchedProcess> _watched;
+
         public MainWindow()
         {
             InitializeComponent();
+            _watched = new List<WatchedProcess>();
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            ActiveWatchersPanel.Children.Add(new WatcherLabel(
-                new WatchedProcess(
-                    ProcessNameTextbox.Text,
-                    UINameTextbox.Text,
-                    (int)UpdateSlider.Value,
-                    10)));
+            var window = new WatcherSettings(_watched);
+            window.ShowDialog();
         }
     }
 }

@@ -12,36 +12,26 @@ namespace GameWatch.Models
     {
         public string ProcessName { get; set; }
         public string UIName { get; set; }
-        public int RefreshIntervalSec { get; set; }
         public int AllowedIntervalSec { get; set; }
+        public int PassedSeconds { get; set; }
+        public DateTime LastTick { get; set; }
 
-        private int _passed = 0;
-        public int PassedSeconds
-        {
-            get
-            {
-                return _passed * RefreshIntervalSec;
-            }
-        }
-
-        public WatchedProcess(string processName, string uIName, int refreshIntervalSec, int allowedIntervalSec)
+        public WatchedProcess(string processName, string uIName, int allowedIntervalSec, int passedSeconds, DateTime lastTick)
         {
             ProcessName = processName;
             UIName = uIName;
-            RefreshIntervalSec = refreshIntervalSec;
             AllowedIntervalSec = allowedIntervalSec;
-
-            DispatcherTimer dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += Ticker;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, RefreshIntervalSec);
-            dispatcherTimer.Start();
+            PassedSeconds = passedSeconds;
+            LastTick = lastTick;
         }
 
-        private void Ticker(object? sender, EventArgs e)
+        public WatchedProcess(string processName, string uIName, int allowedIntervalSec)
         {
-            var proc = Process.GetProcessesByName(ProcessName);
-            if (proc.Length > 0)
-                _passed++;
+            ProcessName = processName;
+            UIName = uIName;
+            AllowedIntervalSec = allowedIntervalSec;
+            PassedSeconds = 0;
+            LastTick = DateTime.UtcNow;
         }
     }
 }

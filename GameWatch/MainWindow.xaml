@@ -7,18 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <StackPanel>
-        <StackPanel>
-            <Label Content="Add Watcher"/>
-            <Label Content="Process Name:"/>
-            <TextBox x:Name="ProcessNameTextbox"/>
-            <Label Content="UI Name:"/>
-            <TextBox x:Name="UINameTextbox"/>
-            <Label Content="Update Interval:"/>
-            <Slider x:Name="UpdateSlider" Minimum="1" Maximum="60" SmallChange="1" LargeChange="10"/>
-            <Button x:Name="AddButton" Content="Add Watcher" Click="AddButton_Click"/>
-        </StackPanel>
-        <StackPanel x:Name="ActiveWatchersPanel">
-            <Label Content="Active Watchers"/>
-        </StackPanel>
+        <Button x:Name="SettingsButton" Content="Settings" Click="SettingsButton_Click"/>
     </StackPanel>
 </Window>

@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace GameWatch.Services
+namespace GameWatch.Helpers
 {
     internal static class IOHelper
     {
