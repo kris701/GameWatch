@@ -45,6 +45,7 @@ namespace GameWatch.UserControls.Overview
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
+            ToggleWatchers(false);
             _trayWindow.SwitchView(new WatcherSettings(_context, _trayWindow));
         }
 

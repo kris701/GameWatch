@@ -29,12 +29,18 @@ namespace GameWatch.UserControls
             Watcher = watchedProcess;
             Watcher.WatchModelGroup.Ticked += UpdateData;
             InitializeComponent();
+            NameLabel.Content = watchedProcess.WatchModelGroup.UIName;
+            StatusLabel.Content = watchedProcess.WatchModelGroup.Status;
+            PassedTimeLabel.Content = watchedProcess.WatchModelGroup.PassedSeconds;
+            AllowedTimeLabel.Content = watchedProcess.WatchModelGroup.AllowedIntervalSec;
+            UsedPercent.Content = Math.Round(((double)watchedProcess.WatchModelGroup.PassedSeconds / (double)watchedProcess.WatchModelGroup.AllowedIntervalSec) * 100,0);
         }
 
         private void UpdateData()
         {
             PassedTimeLabel.Content = Watcher.WatchModelGroup.PassedSeconds;
-            UINameLabel.Content = $"Name [{Watcher.Status}]";
+            UsedPercent.Content = Math.Round(((double)Watcher.WatchModelGroup.PassedSeconds / (double)Watcher.WatchModelGroup.AllowedIntervalSec) * 100, 0);
+            StatusLabel.Content = Watcher.WatchModelGroup.Status;
         }
     }
 }

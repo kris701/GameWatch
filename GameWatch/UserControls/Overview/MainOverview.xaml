@@ -7,12 +7,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="#721D2B40">
     <StackPanel>
-        <Button x:Name="SettingsButton" Content="⚙️" Click="SettingsButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
-        <Button x:Name="StartAllButton" Content="Start All Watches" Click="StartAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
-        <Button x:Name="StopAllButton" Content="Stop All Watches" Click="StopAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
-
-        <StackPanel x:Name="WatchersPanel">
-
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Button x:Name="SettingsButton" Content="⚙️" Click="SettingsButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <GridSplitter Width="2" Background="#FF2D2D5F"/>
+            <Button x:Name="StartAllButton" Content="Start All Watches" Click="StartAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <GridSplitter Width="2" Background="#FF2D2D5F"/>
+            <Button x:Name="StopAllButton" Content="Stop All Watches" Click="StopAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <GridSplitter Width="2" Background="#FF2D2D5F"/>
         </StackPanel>
+        <GridSplitter HorizontalAlignment="Stretch" Height="2" Background="#FF2D2D5F"/>
+        <ScrollViewer Background="#FF3E4858" Margin="5">
+            <StackPanel x:Name="WatchersPanel">
+
+            </StackPanel>
+        </ScrollViewer>
     </StackPanel>
 </UserControl>

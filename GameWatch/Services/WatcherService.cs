@@ -1,5 +1,6 @@
 ﻿using GameWatch.Helpers;
 using GameWatch.Models;
+using GameWatch.UserControls.Notification;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,14 +16,11 @@ namespace GameWatch.Services
         private readonly int _refreshRateSec = 1;
         private DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
-        public WatcherStatus Status { get; internal set; }
-        public INotificationService Notifier { get; }
         public WatchedProcessGroup WatchModelGroup { get; }
 
         public WatcherService(WatchedProcessGroup watchModel)
         {
             WatchModelGroup = watchModel;
-            Notifier = new NotificationService();
 
             _dispatcherTimer.Tick += Ticker;
             _dispatcherTimer.Interval = new TimeSpan(0, 0, _refreshRateSec);
@@ -31,22 +29,29 @@ namespace GameWatch.Services
         public void StartWatch()
         {
             _dispatcherTimer.Start();
-            Status = WatcherStatus.Running;
+            WatchModelGroup.Status = WatcherStatus.Searching;
         }
 
         public void StopWatch()
         {
             _dispatcherTimer.Stop();
-            Status = WatcherStatus.Stopped;
+            WatchModelGroup.Status = WatcherStatus.Stopped;
         }
 
         private void Ticker(object? sender, EventArgs e)
         {
-            var list = new List<Process>();
-            foreach(var process in WatchModelGroup.ProcessNames)
-                list.AddRange(Process.GetProcessesByName(process).ToList());
-            if (list.Count > 0)
+            bool any = false;
+            foreach (var process in WatchModelGroup.ProcessNames)
             {
+                if (Process.GetProcessesByName(process).Length > 0)
+                {
+                    any = true;
+                    break;
+                }
+            }
+            if (any)
+            {
+                WatchModelGroup.Status = WatcherStatus.Counting;
                 if (WatchModelGroup.LastTick.DayOfYear != DateTime.UtcNow.DayOfYear)
                     WatchModelGroup.PassedSeconds = 0;
                 else
@@ -55,12 +60,20 @@ namespace GameWatch.Services
 
                 if (WatchModelGroup.PassedSeconds > WatchModelGroup.AllowedIntervalSec)
                 {
-                    Notifier.Notify(WatchModelGroup.UIName);
-                    Status = WatcherStatus.StoppedByAllowence;
-                    WatchModelGroup.PassedSeconds = 0;
+                    WatchModelGroup.Status = WatcherStatus.StoppedByAllowence;
                     StopWatch();
+                    WatchModelGroup.PassedSeconds = 0;
+                    Notify(WatchModelGroup.UIName);
                 }
             }
+            else
+                WatchModelGroup.Status = WatcherStatus.Searching;
+        }
+
+        public void Notify(string text)
+        {
+            var window = new NotificationWindow(text);
+            window.Show();
         }
     }
 }

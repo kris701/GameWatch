@@ -35,11 +35,11 @@ namespace GameWatch
         {
             InitializeComponent();
             _context = new WindowContext(new List<WatchedProcessGroup>(), new List<IWatcherService>());
-            SwitchView(new MainOverview(_context, this));
         }
 
         public void SwitchView(TrayWindowSwitchable toElement)
         {
+            _context.SaveContext(_savePath);
             MainPanel.Children.Clear();
             MainPanel.Children.Add(toElement.Element);
             Width = toElement.TWidth;
@@ -50,22 +50,17 @@ namespace GameWatch
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!Directory.Exists(_savePath))
-                Directory.CreateDirectory(_savePath);
-            foreach (var watchedProcess in _context.Watched)
-                IOHelper.SaveJsonObject($"{_savePath}/{watchedProcess.ID}.json", watchedProcess);
+            _context.SaveContext(_savePath);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             myNotifyIcon.Icon = new System.Drawing.Icon("powericon.ico");
             SetupContextMenu();
+            _context.LoadContext(_savePath);
             Visibility = Visibility.Hidden;
             BlurHelper.EnableBlur(this);
-            if (!Directory.Exists(_savePath))
-                Directory.CreateDirectory(_savePath);
-            _context.Watched.Clear();
-            _context.Watched.AddRange(IOHelper.LoadJsonObjects<WatchedProcessGroup>(_savePath));
+            SwitchView(new MainOverview(_context, this));
         }
 
         private void myNotifyIcon_TrayRightMouseDown(object sender, RoutedEventArgs e)
