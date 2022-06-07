@@ -13,11 +13,15 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
-            <Button x:Name="SettingsButton" Content="⚙️" Click="SettingsButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <Label Content="GameWatch" Style="{StaticResource StandartLabelStyle}"/>
             <GridSplitter Width="2" Background="#FF2D2D5F"/>
-            <Button x:Name="StartAllButton" Content="Start All Watches" Click="StartAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <Button x:Name="SettingsButton" Content="⚙️" Width="25" Click="SettingsButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
             <GridSplitter Width="2" Background="#FF2D2D5F"/>
-            <Button x:Name="StopAllButton" Content="Stop All Watches" Click="StopAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <Button x:Name="StartAllButton" Content="▶" Width="25" Click="StartAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <GridSplitter Width="2" Background="#FF2D2D5F"/>
+            <Button x:Name="PauseAllButton" Content="⏸" Width="25" Click="PauseAllButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <GridSplitter Width="2" Background="#FF2D2D5F"/>
+            <Button x:Name="StopAllButton" Content="⏹" Width="25" Click="StopAllButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
             <GridSplitter Width="2" Background="#FF2D2D5F"/>
         </StackPanel>
         <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="2" Background="#FF2D2D5F"/>

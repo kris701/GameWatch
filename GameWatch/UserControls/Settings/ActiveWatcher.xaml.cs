@@ -39,11 +39,6 @@ namespace GameWatch.UserControls
             _defaultTextboxBackground = AllowedTimeTextbox.Background;
         }
 
-        private void AllowedTimeTextbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = InputHelper.IsOnlyNumbers(e.Text);
-        }
-
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
             _parent.RemoveWatcher(_watchedProcess);

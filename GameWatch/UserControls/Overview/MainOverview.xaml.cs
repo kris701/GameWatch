@@ -56,9 +56,16 @@ namespace GameWatch.UserControls.Overview
             ToggleWatchers(true);
         }
 
+        private void PauseAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleWatchers(false);
+        }
+
         private void StopAllButton_Click(object sender, RoutedEventArgs e)
         {
             ToggleWatchers(false);
+            foreach (var watched in _context.Watched)
+                watched.Passed = TimeSpan.Zero;
         }
 
         private void ToggleWatchers(bool doRun)
