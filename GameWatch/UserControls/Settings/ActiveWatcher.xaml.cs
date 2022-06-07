@@ -65,7 +65,6 @@ namespace GameWatch.UserControls
                 _watchedProcess.ProcessNames = ProcessNameTextbox.Text.Split(",").ToList();
                 _watchedProcess.UIName = UINameTextbox.Text;
                 _watchedProcess.Allowed = res;
-                _watchedProcess.Passed = TimeSpan.Zero;
                 _watchedProcess.LastTick = DateTime.UtcNow;
             }
         }

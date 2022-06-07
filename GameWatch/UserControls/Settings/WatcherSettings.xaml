@@ -19,6 +19,7 @@
                 <Expander Grid.Row="1" Header="General" IsEnabled="True" Margin="5" Background="#FF444852" Style="{StaticResource StandartExpanderStyle}">
                     <StackPanel>
                         <CheckBox x:Name="RunAtStartupCheckbox" Content="Run At Startup?" Margin="5" Style="{StaticResource StandartCheckBoxStyle}" Click="RunAtStartupCheckbox_Click"/>
+                        <CheckBox x:Name="ResetWatchersCheckbox" Content="Reset Watchers when Accept is clicked?" Margin="5" Style="{StaticResource StandartCheckBoxStyle}" Click="ResetWatchersCheckbox_Click"/>
                     </StackPanel>
                 </Expander>
 

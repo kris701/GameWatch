@@ -63,8 +63,9 @@ namespace GameWatch.UserControls
             }
             if (allFine)
             {
-                foreach (var item in _context.Watched)
-                    item.Passed = TimeSpan.Zero;
+                if (_context.Settings.ResetWatchersWhenClosingSettings)
+                    foreach (var item in _context.Watched)
+                        item.Passed = TimeSpan.Zero;
                 _trayWindow.SwitchView(new MainOverview(_context, _trayWindow));
             }
         }
@@ -109,9 +110,16 @@ namespace GameWatch.UserControls
             }
         }
 
+        private void ResetWatchersCheckbox_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox check && check.IsChecked != null)
+                _context.Settings.ResetWatchersWhenClosingSettings = (bool)check.IsChecked;
+        }
+
         private void SetGeneralSettings()
         {
             RunAtStartupCheckbox.IsChecked = _context.Settings.RunAtStartup;
+            ResetWatchersCheckbox.IsChecked = _context.Settings.ResetWatchersWhenClosingSettings;
         }
     }
 }
