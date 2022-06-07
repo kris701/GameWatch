@@ -99,4 +99,20 @@
         <Setter Property="Background" Value="{DynamicResource StandartTextboxBackgroundColor}"/>
         <Setter Property="FontFamily" Value="{DynamicResource StandartFont}"/>
     </Style>
+
+    <Style TargetType="Expander" x:Key="StandartExpanderStyle">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{StaticResource StandartFrontColor}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="{StaticResource StandartFont}"/>
+    </Style>
+
+    <Style TargetType="CheckBox" x:Key="StandartCheckBoxStyle">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{StaticResource StandartFrontColor}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="{StaticResource StandartFont}"/>
+    </Style>
 </ResourceDictionary>

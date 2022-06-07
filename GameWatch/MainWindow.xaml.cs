@@ -34,7 +34,7 @@ namespace GameWatch
         public MainWindow()
         {
             InitializeComponent();
-            _context = new WindowContext(new List<WatchedProcessGroup>(), new List<IWatcherService>());
+            _context = new WindowContext(new List<WatchedProcessGroup>(), new List<IWatcherService>(), new SettingsModel());
         }
 
         public void SwitchView(TrayWindowSwitchable toElement)

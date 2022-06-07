@@ -13,7 +13,7 @@ namespace GameWatch.Services
 {
     internal class WatcherService : IWatcherService
     {
-        private readonly int _refreshRateSec = 1;
+        private readonly TimeSpan _refreshRateSec = TimeSpan.FromSeconds(1);
         private DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
         public WatchedProcessGroup WatchModelGroup { get; }
@@ -23,7 +23,7 @@ namespace GameWatch.Services
             WatchModelGroup = watchModel;
 
             _dispatcherTimer.Tick += Ticker;
-            _dispatcherTimer.Interval = new TimeSpan(0, 0, _refreshRateSec);
+            _dispatcherTimer.Interval = _refreshRateSec;
         }
 
         public void StartWatch()
@@ -53,16 +53,16 @@ namespace GameWatch.Services
             {
                 WatchModelGroup.Status = WatcherStatus.Counting;
                 if (WatchModelGroup.LastTick.DayOfYear != DateTime.UtcNow.DayOfYear)
-                    WatchModelGroup.PassedSeconds = 0;
+                    WatchModelGroup.Passed = TimeSpan.Zero;
                 else
-                    WatchModelGroup.PassedSeconds += _refreshRateSec;
+                    WatchModelGroup.Passed = WatchModelGroup.Passed.Add(_refreshRateSec);
                 WatchModelGroup.LastTick = DateTime.UtcNow;
 
-                if (WatchModelGroup.PassedSeconds > WatchModelGroup.AllowedIntervalSec)
+                if (WatchModelGroup.Passed > WatchModelGroup.Allowed)
                 {
                     WatchModelGroup.Status = WatcherStatus.StoppedByAllowence;
                     StopWatch();
-                    WatchModelGroup.PassedSeconds = 0;
+                    WatchModelGroup.Passed = TimeSpan.Zero;
                     Notify(WatchModelGroup.UIName);
                 }
             }

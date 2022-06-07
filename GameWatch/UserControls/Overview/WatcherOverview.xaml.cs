@@ -31,15 +31,19 @@ namespace GameWatch.UserControls
             InitializeComponent();
             NameLabel.Content = watchedProcess.WatchModelGroup.UIName;
             StatusLabel.Content = watchedProcess.WatchModelGroup.Status;
-            PassedTimeLabel.Content = watchedProcess.WatchModelGroup.PassedSeconds;
-            AllowedTimeLabel.Content = watchedProcess.WatchModelGroup.AllowedIntervalSec;
-            UsedPercent.Content = Math.Round(((double)watchedProcess.WatchModelGroup.PassedSeconds / (double)watchedProcess.WatchModelGroup.AllowedIntervalSec) * 100,0);
+            PassedTimeLabel.Content = watchedProcess.WatchModelGroup.Passed;
+            AllowedTimeLabel.Content = watchedProcess.WatchModelGroup.Allowed;
+            UsedPercent.Content = Math.Round(((double)watchedProcess.WatchModelGroup.Passed.TotalSeconds / (double)watchedProcess.WatchModelGroup.Allowed.TotalSeconds) * 100,0);
+            ProgressBar.Minimum = 0;
+            ProgressBar.Maximum = watchedProcess.WatchModelGroup.Allowed.TotalSeconds;
+            ProgressBar.Value = watchedProcess.WatchModelGroup.Passed.TotalSeconds;
         }
 
         private void UpdateData()
         {
-            PassedTimeLabel.Content = Watcher.WatchModelGroup.PassedSeconds;
-            UsedPercent.Content = Math.Round(((double)Watcher.WatchModelGroup.PassedSeconds / (double)Watcher.WatchModelGroup.AllowedIntervalSec) * 100, 0);
+            PassedTimeLabel.Content = Watcher.WatchModelGroup.Passed;
+            ProgressBar.Value = Watcher.WatchModelGroup.Passed.TotalSeconds;
+            UsedPercent.Content = Math.Round(((double)Watcher.WatchModelGroup.Passed.TotalSeconds / (double)Watcher.WatchModelGroup.Allowed.TotalSeconds) * 100, 0);
             StatusLabel.Content = Watcher.WatchModelGroup.Status;
         }
     }

@@ -1,9 +1,12 @@
 ﻿using GameWatch.Helpers;
 using GameWatch.Models;
 using GameWatch.UserControls.Overview;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -34,19 +37,15 @@ namespace GameWatch.UserControls
             _context = context;
             _trayWindow = trayWindow;
             Element = this;
-            UpdateList();
+            UpdateWatcherList();
+            SetGeneralSettings();
         }
 
-        private void UpdateList()
+        private void UpdateWatcherList()
         {
             ActiveWatchersPanel.Children.Clear();
             foreach (var item in _context.Watched)
                 ActiveWatchersPanel.Children.Add(new ActiveWatcher(this, item));
-        }
-
-        private void AllowedTimeTextbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = InputHelper.IsOnlyNumbers(e.Text);
         }
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
@@ -65,7 +64,7 @@ namespace GameWatch.UserControls
             if (allFine)
             {
                 foreach (var item in _context.Watched)
-                    item.PassedSeconds = 0;
+                    item.Passed = TimeSpan.Zero;
                 _trayWindow.SwitchView(new MainOverview(_context, _trayWindow));
             }
         }
@@ -77,27 +76,42 @@ namespace GameWatch.UserControls
                 Guid.NewGuid(),
                 new List<string>(),
                 "",
-                0));
-            UpdateList();
+                TimeSpan.Zero));
+            UpdateWatcherList();
         }
 
         public void RemoveWatcher(WatchedProcessGroup watcher)
         {
             _context.Watched.Remove(watcher);
-            UpdateList();
+            UpdateWatcherList();
         }
 
-        public async Task BlinkElement(Panel element)
+        private void RunAtStartupCheckbox_Click(object sender, RoutedEventArgs e)
         {
-            var normalBackground = element.Background;
-            element.Background = Brushes.DarkRed;
-            await Task.Delay(500);
-            element.Background = normalBackground;
-            await Task.Delay(500);
-            element.Background = Brushes.DarkRed;
-            await Task.Delay(500);
-            element.Background = normalBackground;
-            await Task.Delay(500);
+            if (sender is CheckBox check && check.IsChecked != null)
+            {
+                _context.Settings.RunAtStartup = (bool)check.IsChecked;
+
+                var module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
+                if (module == null || module.FileName == null)
+                    throw new Exception("Could not find current running assembly!");
+
+                if (_context.Settings.RunAtStartup)
+                    IOHelper.GenerateShortcut(
+                        $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\",
+                        "GameWatch",
+                        module.FileName);
+                else
+                    IOHelper.RemoveShortcut(
+                        $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\",
+                        "GameWatch",
+                        module.FileName);
+            }
+        }
+
+        private void SetGeneralSettings()
+        {
+            RunAtStartupCheckbox.IsChecked = _context.Settings.RunAtStartup;
         }
     }
 }

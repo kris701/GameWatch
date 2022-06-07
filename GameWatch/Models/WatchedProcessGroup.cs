@@ -23,10 +23,10 @@ namespace GameWatch.Models
         public Guid ID { get; set; }
         public List<string> ProcessNames { get; set; }
         public string UIName { get; set; }
-        public int AllowedIntervalSec { get; set; }
-        private int _passedSeconds;
-        public int PassedSeconds { get { return _passedSeconds; } set {
-                _passedSeconds = value;
+        public TimeSpan Allowed { get; set; }
+        private TimeSpan _passed;
+        public TimeSpan Passed { get { return _passed; } set {
+                _passed = value;
                 if (Ticked != null)
                     Ticked.Invoke();
             } }
@@ -37,30 +37,30 @@ namespace GameWatch.Models
             ID = Guid.NewGuid();
             ProcessNames = new List<string>();
             UIName = "";
-            AllowedIntervalSec = -1;
-            PassedSeconds = -1;
+            Allowed = TimeSpan.Zero;
+            Passed = TimeSpan.Zero;
             LastTick = DateTime.UtcNow;
             Status = WatcherStatus.NotRunYet;
         }
 
-        public WatchedProcessGroup(Guid id, List<string> processNames, string uIName, int allowedIntervalSec, int passedSeconds, DateTime lastTick)
+        public WatchedProcessGroup(Guid id, List<string> processNames, string uIName, TimeSpan allowed, TimeSpan passed, DateTime lastTick)
         {
             ID = id;
             ProcessNames = processNames;
             UIName = uIName;
-            AllowedIntervalSec = allowedIntervalSec;
-            PassedSeconds = passedSeconds;
+            Allowed = allowed;
+            Passed = passed;
             LastTick = lastTick;
             Status = WatcherStatus.NotRunYet;
         }
 
-        public WatchedProcessGroup(Guid id, List<string> processNames, string uIName, int allowedIntervalSec)
+        public WatchedProcessGroup(Guid id, List<string> processNames, string uIName, TimeSpan allowed)
         {
             ID = id;
             ProcessNames = processNames;
             UIName = uIName;
-            AllowedIntervalSec = allowedIntervalSec;
-            PassedSeconds = 0;
+            Allowed = allowed;
+            Passed = TimeSpan.Zero;
             LastTick = DateTime.UtcNow;
             Status = WatcherStatus.NotRunYet;
         }

@@ -24,5 +24,6 @@
             <Label x:Name="UsedPercent" Content="x" Style="{StaticResource StandartLabelStyle}"/>
             <Label Content="%" Style="{StaticResource StandartLabelStyle}"/>
         </StackPanel>
+        <ProgressBar x:Name="ProgressBar" Height="20" Background="Transparent"/>
     </StackPanel>
 </UserControl>

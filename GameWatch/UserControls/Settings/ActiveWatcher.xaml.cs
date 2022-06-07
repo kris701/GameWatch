@@ -35,7 +35,7 @@ namespace GameWatch.UserControls
             _parent = parent;
             ProcessNameTextbox.Text = String.Join(",", _watchedProcess.ProcessNames);
             UINameTextbox.Text = _watchedProcess.UIName;
-            AllowedTimeTextbox.Text = _watchedProcess.AllowedIntervalSec.ToString();
+            AllowedTimeTextbox.Text = _watchedProcess.Allowed.ToString();
             _defaultTextboxBackground = AllowedTimeTextbox.Background;
         }
 
@@ -51,20 +51,21 @@ namespace GameWatch.UserControls
 
         private void UIInputChanged(object sender, TextChangedEventArgs e)
         {
+            TimeSpan res = TimeSpan.Zero;
             IsValid = true;
             if (!IsTextboxValid(ProcessNameTextbox, ProcessNameTextbox.Text.Split(",").ToList().Count == 0))
                 IsValid = false;
             if (!IsTextboxValid(UINameTextbox, UINameTextbox.Text == ""))
                 IsValid = false;
-            if (!IsTextboxValid(AllowedTimeTextbox, AllowedTimeTextbox.Text == ""))
+            if (!IsTextboxValid(AllowedTimeTextbox, !TimeSpan.TryParse(AllowedTimeTextbox.Text, out res)))
                 IsValid = false;
 
             if (IsValid)
             {
                 _watchedProcess.ProcessNames = ProcessNameTextbox.Text.Split(",").ToList();
                 _watchedProcess.UIName = UINameTextbox.Text;
-                _watchedProcess.AllowedIntervalSec = Int32.Parse(AllowedTimeTextbox.Text);
-                _watchedProcess.PassedSeconds = 0;
+                _watchedProcess.Allowed = res;
+                _watchedProcess.Passed = TimeSpan.Zero;
                 _watchedProcess.LastTick = DateTime.UtcNow;
             }
         }

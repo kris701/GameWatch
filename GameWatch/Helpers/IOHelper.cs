@@ -49,5 +49,30 @@ namespace GameWatch.Helpers
         }
 
         #endregion
+
+        #region Links
+
+        public static void GenerateShortcut(string folder, string filename, string linkPath)
+        {
+            string dir = $"{folder}\\{filename}.lnk";
+            if (File.Exists(dir))
+                File.Delete(dir);
+
+            IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+            IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(dir);
+
+            shortcut.Description = "Startup shortcut for GameWatch";
+            shortcut.TargetPath = linkPath;
+            shortcut.Save();
+        }
+
+        public static void RemoveShortcut(string folder, string filename, string linkPath)
+        {
+            string dir = $"{folder}\\{filename}.lnk";
+            if (File.Exists(dir))
+                File.Delete(dir);
+        }
+
+        #endregion
     }
 }
