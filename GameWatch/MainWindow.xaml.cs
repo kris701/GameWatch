@@ -55,7 +55,7 @@ namespace GameWatch
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            myNotifyIcon.Icon = new System.Drawing.Icon("powericon.ico");
+            NotifyIcon.Icon = new System.Drawing.Icon("powericon.ico");
             SetupContextMenu();
             _context.LoadContext(_savePath);
             Visibility = Visibility.Hidden;
@@ -63,19 +63,21 @@ namespace GameWatch
             SwitchView(new MainOverview(_context, this));
         }
 
-        private void myNotifyIcon_TrayRightMouseDown(object sender, RoutedEventArgs e)
+        private void NotifyIcon_TrayRightMouseDown(object sender, RoutedEventArgs e)
         {
-            myNotifyIcon.ContextMenu.IsOpen = true;
+            NotifyIcon.ContextMenu.IsOpen = true;
         }
 
-        private void myNotifyIcon_PopupOpened(object sender, RoutedEventArgs e)
+        private async void NotifyIcon_PopupOpened(object sender, RoutedEventArgs e)
         {
             Visibility = Visibility.Visible;
+            await FadeHelper.FadeIn(this, 0.02, 10, 0.8);
             Activate();
         }
 
-        private void Window_Deactivated(object sender, EventArgs e)
+        private async void Window_Deactivated(object sender, EventArgs e)
         {
+            await FadeHelper.FadeOut(this, 0.02, 10);
             Visibility = Visibility.Hidden;
         }
 
@@ -86,8 +88,8 @@ namespace GameWatch
             item.Header = "Exit";
             item.Click += ExitButton_Click;
             contextMenu.Items.Add(item);
-            myNotifyIcon.ContextMenu = contextMenu;
-            myNotifyIcon.ContextMenu.IsOpen = false;
+            NotifyIcon.ContextMenu = contextMenu;
+            NotifyIcon.ContextMenu.IsOpen = false;
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

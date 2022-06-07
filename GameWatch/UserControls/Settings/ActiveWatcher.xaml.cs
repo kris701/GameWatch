@@ -52,27 +52,13 @@ namespace GameWatch.UserControls
         private void UIInputChanged(object sender, TextChangedEventArgs e)
         {
             IsValid = true;
-            if (ProcessNameTextbox.Text.Split(",").ToList().Count == 0)
-            {
-                ProcessNameTextbox.Background = Brushes.DarkRed;
+            if (!IsTextboxValid(ProcessNameTextbox, ProcessNameTextbox.Text.Split(",").ToList().Count == 0))
                 IsValid = false;
-            }
-            else
-                ProcessNameTextbox.Background = _defaultTextboxBackground;
-            if (UINameTextbox.Text == "")
-            {
-                UINameTextbox.Background = Brushes.DarkRed;
+            if (!IsTextboxValid(UINameTextbox, UINameTextbox.Text == ""))
                 IsValid = false;
-            }
-            else
-                UINameTextbox.Background = _defaultTextboxBackground;
-            if (AllowedTimeTextbox.Text == "")
-            {
-                AllowedTimeTextbox.Background = Brushes.DarkRed;
+            if (!IsTextboxValid(AllowedTimeTextbox, AllowedTimeTextbox.Text == ""))
                 IsValid = false;
-            }
-            else
-                AllowedTimeTextbox.Background = _defaultTextboxBackground;
+
             if (IsValid)
             {
                 _watchedProcess.ProcessNames = ProcessNameTextbox.Text.Split(",").ToList();
@@ -81,6 +67,18 @@ namespace GameWatch.UserControls
                 _watchedProcess.PassedSeconds = 0;
                 _watchedProcess.LastTick = DateTime.UtcNow;
             }
+        }
+
+        private bool IsTextboxValid(TextBox element, bool check)
+        {
+            if (check)
+            {
+                element.Background = Brushes.DarkRed;
+                return false;
+            }
+            else
+                element.Background = _defaultTextboxBackground;
+            return true;
         }
     }
 }

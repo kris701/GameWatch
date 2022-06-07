@@ -8,11 +8,11 @@
         mc:Ignorable="d"
         Title="GameWatch" Height="300" Width="800" Closing="Window_Closing" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" Background="#721D2B40" Opacity="0.8" Deactivated="Window_Deactivated">
     <StackPanel x:Name="MainPanel">
-        <tb:TaskbarIcon x:Name="myNotifyIcon"
+        <tb:TaskbarIcon x:Name="NotifyIcon"
                         Visibility="Visible"
                         ToolTipText="GameWatch - Double click to open" 
                         PopupActivation="All" 
-                        TrayMouseDoubleClick="myNotifyIcon_PopupOpened"
-                        TrayRightMouseDown="myNotifyIcon_TrayRightMouseDown"/>
+                        TrayMouseDoubleClick="NotifyIcon_PopupOpened"
+                        TrayRightMouseDown="NotifyIcon_TrayRightMouseDown"/>
     </StackPanel>
 </Window>
