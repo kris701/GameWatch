@@ -6,7 +6,7 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:GameWatch"
         mc:Ignorable="d"
-        Title="GameWatch" Height="300" Width="800" Closing="Window_Closing" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" Background="#721D2B40" Opacity="0.8" Deactivated="Window_Deactivated">
+        Title="GameWatch" Height="300" Width="800" Closing="Window_Closing" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" Background="#721D2B40" Opacity="0.8" Deactivated="Window_Deactivated" ShowInTaskbar="False">
     <Grid x:Name="MainPanel">
         <tb:TaskbarIcon x:Name="NotifyIcon"
                         Visibility="Visible"
