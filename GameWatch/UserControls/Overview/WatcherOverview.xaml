@@ -7,6 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="400" Margin="5">
     <StackPanel Background="#FF3E4858">
+        <StackPanel Orientation="Horizontal" Height="33">
+            <Button x:Name="StartButton" Content="▶" Width="25" Click="StartButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <Button x:Name="PauseButton" Content="⏸" Width="25" Click="PauseButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <Button x:Name="StopButton" Content="⏹" Width="25" Click="StopButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+        </StackPanel>
         <StackPanel Orientation="Horizontal">
             <Label Content="Name:" FontSize="20" Style="{StaticResource StandartLabelStyle}"/>
             <Label x:Name="NameLabel" Content="x" FontSize="20" Style="{StaticResource StandartLabelStyle}"/>

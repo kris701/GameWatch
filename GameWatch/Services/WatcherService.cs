@@ -35,7 +35,14 @@ namespace GameWatch.Services
         public void StopWatch()
         {
             _dispatcherTimer.Stop();
+            WatchModelGroup.Passed = TimeSpan.Zero;
             WatchModelGroup.Status = WatcherStatus.Stopped;
+        }
+
+        public void PauseWatch()
+        {
+            _dispatcherTimer.Stop();
+            WatchModelGroup.Status = WatcherStatus.Paused;
         }
 
         private void Ticker(object? sender, EventArgs e)
@@ -60,20 +67,31 @@ namespace GameWatch.Services
 
                 if (WatchModelGroup.Passed > WatchModelGroup.Allowed)
                 {
-                    WatchModelGroup.Status = WatcherStatus.StoppedByAllowence;
-                    StopWatch();
-                    WatchModelGroup.Passed = TimeSpan.Zero;
-                    Notify(WatchModelGroup.UIName);
+                    var window = new NotificationWindow(WatchModelGroup);
+                    window.ShowDialog();
+                    NotificationChoice(window.Action);
                 }
             }
             else
                 WatchModelGroup.Status = WatcherStatus.Searching;
         }
 
-        public void Notify(string text)
+        private void NotificationChoice(NotificationAction action)
         {
-            var window = new NotificationWindow(text);
-            window.Show();
+            switch (action)
+            {
+                case NotificationAction.StopTimer:
+                    WatchModelGroup.Status = WatcherStatus.StoppedByAllowence;
+                    StopWatch();
+                    WatchModelGroup.Passed = TimeSpan.Zero;
+                    break;
+                case NotificationAction.Add15Min:
+                    if (WatchModelGroup.Allowed > TimeSpan.FromMinutes(15))
+                        WatchModelGroup.Passed = WatchModelGroup.Passed.Subtract(TimeSpan.FromMinutes(15));
+                    else
+                        WatchModelGroup.Passed = TimeSpan.Zero;
+                    break;
+            }
         }
     }
 }

@@ -42,39 +42,46 @@ namespace GameWatch.UserControls.Overview
                 WatchersPanel.Children.Add(new WatcherOverview(watcher));
             if (WatchersPanel.Children.Count == 0)
                 WatchersPanel.Children.Add(new AddNewWatchersLabelControl());
-            ToggleWatchers(true);
+            StartAllWatchers();
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            ToggleWatchers(false);
+            PauseAllWatchers();
             _trayWindow.SwitchView(new WatcherSettings(_context, _trayWindow));
         }
 
         private void StartAllButton_Click(object sender, RoutedEventArgs e)
         {
-            ToggleWatchers(true);
+            StartAllWatchers();
         }
 
         private void PauseAllButton_Click(object sender, RoutedEventArgs e)
         {
-            ToggleWatchers(false);
+            PauseAllWatchers();
         }
 
         private void StopAllButton_Click(object sender, RoutedEventArgs e)
         {
-            ToggleWatchers(false);
-            foreach (var watched in _context.Watched)
-                watched.Passed = TimeSpan.Zero;
+            StopAllWatchers();
         }
 
-        private void ToggleWatchers(bool doRun)
+        private void StartAllWatchers()
         {
             foreach (var watcher in _context.Watchers)
-                if (doRun)
-                    watcher.StartWatch();
-                else
-                    watcher.StopWatch();
+                watcher.StartWatch();
+        }
+
+        private void StopAllWatchers()
+        {
+            foreach (var watcher in _context.Watchers)
+                watcher.StopWatch();
+        }
+
+        private void PauseAllWatchers()
+        {
+            foreach (var watcher in _context.Watchers)
+                watcher.PauseWatch();
         }
     }
 }

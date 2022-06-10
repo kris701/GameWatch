@@ -7,12 +7,12 @@
         xmlns:local="clr-namespace:GameWatch"
         mc:Ignorable="d"
         Title="GameWatch" Height="300" Width="800" Closing="Window_Closing" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" Background="#721D2B40" Opacity="0.8" Deactivated="Window_Deactivated">
-    <StackPanel x:Name="MainPanel">
+    <Grid x:Name="MainPanel">
         <tb:TaskbarIcon x:Name="NotifyIcon"
                         Visibility="Visible"
                         ToolTipText="GameWatch - Double click to open" 
                         PopupActivation="All" 
                         TrayMouseDoubleClick="NotifyIcon_PopupOpened"
                         TrayRightMouseDown="NotifyIcon_TrayRightMouseDown"/>
-    </StackPanel>
+    </Grid>
 </Window>

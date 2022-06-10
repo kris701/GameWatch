@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameWatch.UserControls.Notification"
         mc:Ignorable="d"
-        Title="NotificationWindow" Height="500" Width="500" AllowsTransparency="True" WindowStyle="None" Topmost="True" Background="#D5404042" Loaded="Window_Loaded" WindowState="Maximized">
+        Title="NotificationWindow" Height="500" Width="500" AllowsTransparency="True" WindowStyle="None" Topmost="True" Background="#D5404042" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Label x:Name="AllowedTimeLabel" Content="Allowed time for [] exceeded" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
-            <Button x:Name="AcceptButton" Content="Ok" Click="AcceptButton_Click"/>
+            <Label x:Name="AllowedTimeLabel" Content="Allowed time for [] exceeded" FontSize="20" HorizontalAlignment="Center" Style="{StaticResource StandartLabelStyle}"/>
+            <Button x:Name="AcceptButton" Content="Stop timer" Click="AcceptButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <Button x:Name="AcceptDelayButton" Content="Add 15 min to timer" Click="AcceptDelayButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}"/>
         </StackPanel>
     </Grid>
 </Window>

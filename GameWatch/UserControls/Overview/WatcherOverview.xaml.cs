@@ -46,5 +46,20 @@ namespace GameWatch.UserControls
             UsedPercent.Content = Math.Round(((double)Watcher.WatchModelGroup.Passed.TotalSeconds / (double)Watcher.WatchModelGroup.Allowed.TotalSeconds) * 100, 0);
             StatusLabel.Content = Watcher.WatchModelGroup.Status;
         }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            Watcher.StartWatch();
+        }
+
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Watcher.PauseWatch();
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            Watcher.StopWatch();
+        }
     }
 }

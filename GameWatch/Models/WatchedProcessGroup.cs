@@ -8,7 +8,7 @@ using System.Windows.Threading;
 
 namespace GameWatch.Models
 {
-    public enum WatcherStatus { NotRunYet, Stopped, StoppedByAllowence, Counting, Searching }
+    public enum WatcherStatus { NotRunYet, Stopped, Paused, StoppedByAllowence, Counting, Searching }
     public class WatchedProcessGroup
     {
         public delegate void TickedHandler();

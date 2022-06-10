@@ -12,5 +12,6 @@ namespace GameWatch.Services
         public WatchedProcessGroup WatchModelGroup { get; }
         public void StartWatch();
         public void StopWatch();
+        public void PauseWatch();
     }
 }

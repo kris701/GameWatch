@@ -55,7 +55,7 @@ namespace GameWatch
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            NotifyIcon.Icon = new System.Drawing.Icon("powericon.ico");
+            NotifyIcon.Icon = new System.Drawing.Icon("gamewatchicon.ico");
             SetupContextMenu();
             _context.LoadContext(_savePath);
             Visibility = Visibility.Hidden;
