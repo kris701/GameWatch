@@ -62,6 +62,7 @@ namespace GameWatch.Helpers
             IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(dir);
 
             shortcut.Description = "Startup shortcut for GameWatch";
+            shortcut.WorkingDirectory = folder;
             shortcut.TargetPath = linkPath;
             shortcut.Save();
         }
