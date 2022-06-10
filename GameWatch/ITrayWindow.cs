@@ -11,5 +11,6 @@ namespace GameWatch
     public interface ITrayWindow
     {
         public void SwitchView(TrayWindowSwitchable toElement);
+        public void SaveContext();
     }
 }

@@ -39,7 +39,7 @@ namespace GameWatch
 
         public void SwitchView(TrayWindowSwitchable toElement)
         {
-            _context.SaveContext(_savePath);
+            SaveContext();
             MainPanel.Children.Clear();
             MainPanel.Children.Add(toElement.Element);
             Width = toElement.TWidth;
@@ -48,9 +48,14 @@ namespace GameWatch
             this.Top = SystemParameters.PrimaryScreenHeight - this.Height - 45;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        public void SaveContext()
         {
             _context.SaveContext(_savePath);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveContext();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

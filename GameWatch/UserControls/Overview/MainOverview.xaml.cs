@@ -48,21 +48,25 @@ namespace GameWatch.UserControls.Overview
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             PauseAllWatchers();
+            _trayWindow.SaveContext();
             _trayWindow.SwitchView(new WatcherSettings(_context, _trayWindow));
         }
 
         private void StartAllButton_Click(object sender, RoutedEventArgs e)
         {
+            _trayWindow.SaveContext();
             StartAllWatchers();
         }
 
         private void PauseAllButton_Click(object sender, RoutedEventArgs e)
         {
+            _trayWindow.SaveContext();
             PauseAllWatchers();
         }
 
         private void StopAllButton_Click(object sender, RoutedEventArgs e)
         {
+            _trayWindow.SaveContext();
             StopAllWatchers();
         }
 
