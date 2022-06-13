@@ -134,6 +134,7 @@ namespace GameWatch.UserControls.Settings
                 var path = GetSavePath();
                 if (Directory.Exists(path))
                     Directory.Delete(path, true);
+                Directory.CreateDirectory(path);
                 _context.LoadContext();
                 await _parent.SwitchView();
             }

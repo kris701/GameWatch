@@ -3,6 +3,7 @@ using GameWatch.Models;
 using GameWatch.Services;
 using GameWatch.UserControls;
 using GameWatch.UserControls.Overview;
+using GameWatch.UserControls.Welcome;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -63,10 +64,18 @@ namespace GameWatch
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             NotifyIcon.Icon = new System.Drawing.Icon("gamewatchicon.ico");
-            _context.LoadContext();
-            Visibility = Visibility.Hidden;
-            BlurHelper.EnableBlur(this);
-            await SwitchView(new MainWatcherView(_context, this));
+            if (!Directory.Exists(WindowContext.SavePath))
+            {
+                _context.Settings.WindowFadeDelay = TimeSpan.FromSeconds(60);
+                await SwitchView(new WelcomeView(_context, this));
+            }
+            else
+            {
+                _context.LoadContext();
+                Visibility = Visibility.Hidden;
+                BlurHelper.EnableBlur(this);
+                await SwitchView(new MainWatcherView(_context, this));
+            }
         }
 
         private void NotifyIcon_TrayRightMouseDown(object sender, RoutedEventArgs e)
