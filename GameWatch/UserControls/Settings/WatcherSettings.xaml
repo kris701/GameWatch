@@ -20,6 +20,14 @@
                     <StackPanel>
                         <CheckBox x:Name="RunAtStartupCheckbox" Content="Run At Startup?" Margin="5" Style="{StaticResource StandartCheckBoxStyle}" Click="RunAtStartupCheckbox_Click"/>
                         <CheckBox x:Name="ResetWatchersCheckbox" Content="Reset Watchers when Accept is clicked?" Margin="5" Style="{StaticResource StandartCheckBoxStyle}" Click="ResetWatchersCheckbox_Click"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Refresh Rate" Style="{StaticResource StandartLabelStyle}"/>
+                            <TextBox Grid.Column="1" x:Name="RefreshRateTextbox" TextChanged="UIInputChanged" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
+                        </Grid>
                     </StackPanel>
                 </Expander>
 

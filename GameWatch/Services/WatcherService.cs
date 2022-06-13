@@ -13,17 +13,18 @@ namespace GameWatch.Services
 {
     internal class WatcherService : IWatcherService
     {
-        private readonly TimeSpan _refreshRateSec = TimeSpan.FromSeconds(1);
         private DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
+        public TimeSpan RefreshRate { get; }
         public WatchedProcessGroup WatchModelGroup { get; }
 
-        public WatcherService(WatchedProcessGroup watchModel)
+        public WatcherService(WatchedProcessGroup watchModel, TimeSpan refreshRate)
         {
             WatchModelGroup = watchModel;
 
             _dispatcherTimer.Tick += Ticker;
-            _dispatcherTimer.Interval = _refreshRateSec;
+            RefreshRate = refreshRate;
+            _dispatcherTimer.Interval = refreshRate;
         }
 
         public void StartWatch()
@@ -47,6 +48,10 @@ namespace GameWatch.Services
 
         private void Ticker(object? sender, EventArgs e)
         {
+            if (WatchModelGroup.LastTick.DayOfYear != DateTime.UtcNow.DayOfYear)
+                WatchModelGroup.Passed = TimeSpan.Zero;
+            WatchModelGroup.LastTick = DateTime.UtcNow;
+
             bool any = false;
             foreach (var process in WatchModelGroup.ProcessNames)
             {
@@ -59,13 +64,9 @@ namespace GameWatch.Services
             if (any)
             {
                 WatchModelGroup.Status = WatcherStatus.Counting;
-                if (WatchModelGroup.LastTick.DayOfYear != DateTime.UtcNow.DayOfYear)
-                    WatchModelGroup.Passed = TimeSpan.Zero;
-                else
-                    WatchModelGroup.Passed = WatchModelGroup.Passed.Add(_refreshRateSec);
-                WatchModelGroup.LastTick = DateTime.UtcNow;
+                WatchModelGroup.Passed = WatchModelGroup.Passed.Add(RefreshRate);
 
-                if (WatchModelGroup.Passed > WatchModelGroup.Allowed)
+                if (WatchModelGroup.Passed >= WatchModelGroup.Allowed)
                 {
                     var window = new NotificationWindow(WatchModelGroup);
                     window.ShowDialog();

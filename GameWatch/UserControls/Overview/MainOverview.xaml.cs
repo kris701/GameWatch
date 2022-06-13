@@ -37,7 +37,7 @@ namespace GameWatch.UserControls.Overview
             InitializeComponent();
             _context.Watchers.Clear();
             foreach (var item in _context.Watched)
-                _context.Watchers.Add(new WatcherService(item));
+                _context.Watchers.Add(new WatcherService(item, context.Settings.RefreshRate));
             foreach (var watcher in _context.Watchers)
                 WatchersPanel.Children.Add(new WatcherOverview(watcher));
             if (WatchersPanel.Children.Count == 0)

@@ -48,11 +48,11 @@ namespace GameWatch.UserControls
         {
             TimeSpan res = TimeSpan.Zero;
             IsValid = true;
-            if (!IsTextboxValid(ProcessNameTextbox, ProcessNameTextbox.Text.Split(",").ToList().Count == 0))
+            if (!InputHelper.IsTextboxValid(ProcessNameTextbox, ProcessNameTextbox.Text.Split(",").ToList().Count == 0, _defaultTextboxBackground))
                 IsValid = false;
-            if (!IsTextboxValid(UINameTextbox, UINameTextbox.Text == ""))
+            if (!InputHelper.IsTextboxValid(UINameTextbox, UINameTextbox.Text == "", _defaultTextboxBackground))
                 IsValid = false;
-            if (!IsTextboxValid(AllowedTimeTextbox, !TimeSpan.TryParse(AllowedTimeTextbox.Text, out res)))
+            if (!InputHelper.IsTextboxValid(AllowedTimeTextbox, !TimeSpan.TryParse(AllowedTimeTextbox.Text, out res), _defaultTextboxBackground))
                 IsValid = false;
 
             if (IsValid)
@@ -62,18 +62,6 @@ namespace GameWatch.UserControls
                 _watchedProcess.Allowed = res;
                 _watchedProcess.LastTick = DateTime.UtcNow;
             }
-        }
-
-        private bool IsTextboxValid(TextBox element, bool check)
-        {
-            if (check)
-            {
-                element.Background = Brushes.DarkRed;
-                return false;
-            }
-            else
-                element.Background = _defaultTextboxBackground;
-            return true;
         }
     }
 }

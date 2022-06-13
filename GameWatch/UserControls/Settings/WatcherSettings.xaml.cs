@@ -27,6 +27,8 @@ namespace GameWatch.UserControls
     {
         private WindowContext _context;
         private ITrayWindow _trayWindow;
+        private bool IsValid = false;
+        private Brush _defaultTextboxBackground;
 
         public UIElement Element { get; }
         public double TWidth { get; } = 400;
@@ -37,6 +39,8 @@ namespace GameWatch.UserControls
             _context = context;
             _trayWindow = trayWindow;
             Element = this;
+            _defaultTextboxBackground = RefreshRateTextbox.Background;
+            RefreshRateTextbox.Text = context.Settings.RefreshRate.ToString();
             UpdateWatcherList();
             SetGeneralSettings();
         }
@@ -61,7 +65,7 @@ namespace GameWatch.UserControls
                         break;
                 }
             }
-            if (allFine)
+            if (allFine && IsValid)
             {
                 if (_context.Settings.ResetWatchersWhenClosingSettings)
                     foreach (var item in _context.Watched)
@@ -120,6 +124,21 @@ namespace GameWatch.UserControls
         {
             RunAtStartupCheckbox.IsChecked = _context.Settings.RunAtStartup;
             ResetWatchersCheckbox.IsChecked = _context.Settings.ResetWatchersWhenClosingSettings;
+        }
+
+        private void UIInputChanged(object sender, TextChangedEventArgs e)
+        {
+            TimeSpan res = TimeSpan.Zero;
+            IsValid = true;
+            if (!InputHelper.IsTextboxValid(RefreshRateTextbox, !TimeSpan.TryParse(RefreshRateTextbox.Text, out res), _defaultTextboxBackground))
+                IsValid = false;
+            if (!InputHelper.IsTextboxValid(RefreshRateTextbox, res == TimeSpan.Zero, _defaultTextboxBackground))
+                IsValid = false;
+
+            if (IsValid)
+            {
+                _context.Settings.RefreshRate = res;
+            }
         }
     }
 }

@@ -10,17 +10,20 @@ namespace GameWatch.Models
     {
         public bool RunAtStartup { get; set; }
         public bool ResetWatchersWhenClosingSettings { get; set; }
+        public TimeSpan RefreshRate { get; set; }
 
         public SettingsModel()
         {
             RunAtStartup = false;
             ResetWatchersWhenClosingSettings = true;
+            RefreshRate = TimeSpan.FromSeconds(1);
         }
 
-        public SettingsModel(bool runAtStartup, bool resetWatchersWhenClosingSettings)
+        public SettingsModel(bool runAtStartup, bool resetWatchersWhenClosingSettings, TimeSpan refreshRate)
         {
             RunAtStartup = runAtStartup;
             ResetWatchersWhenClosingSettings = resetWatchersWhenClosingSettings;
+            RefreshRate = refreshRate;
         }
     }
 }
