@@ -23,9 +23,9 @@ using System.Windows.Shapes;
 namespace GameWatch.UserControls
 {
     /// <summary>
-    /// Interaction logic for WatcherSettings.xaml
+    /// Interaction logic for SettingsView.xaml
     /// </summary>
-    public partial class WatcherSettings : UserControl, TrayWindowSwitchable
+    public partial class SettingsView : UserControl, TrayWindowSwitchable
     {
         private GeneralSettings _generalSettings;
         private WatchersSettings _watchersSettings;
@@ -36,7 +36,7 @@ namespace GameWatch.UserControls
         public UIElement Element { get; }
         public double TWidth { get; } = 400;
         public double THeight { get; } = 450;
-        public WatcherSettings(WindowContext context, ITrayWindow trayWindow)
+        public SettingsView(WindowContext context, ITrayWindow trayWindow)
         {
             InitializeComponent();
             _context = context;
@@ -69,6 +69,11 @@ namespace GameWatch.UserControls
 
                 SwitchView();
             }
+            else
+            {
+                GeneralSettingsExpander.IsExpanded = true;
+                WatchersSettingsExpander.IsExpanded = true;
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -81,7 +86,7 @@ namespace GameWatch.UserControls
             if (_context.Settings.ResetWatchersWhenClosingSettings)
                 foreach (var item in _context.Watched)
                     item.Passed = TimeSpan.Zero;
-            _trayWindow.SwitchView(new MainOverview(_context, _trayWindow));
+            _trayWindow.SwitchView(new MainWatcherView(_context, _trayWindow));
         }
     }
 }

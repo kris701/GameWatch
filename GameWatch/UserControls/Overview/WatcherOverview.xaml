@@ -8,9 +8,9 @@
              d:DesignHeight="200" d:DesignWidth="400" Margin="5">
     <StackPanel Background="#FF3E4858">
         <StackPanel Orientation="Horizontal" Height="33">
-            <Button x:Name="StartButton" Content="▶" Width="25" Click="StartButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}"/>
-            <Button x:Name="PauseButton" Content="⏸" Width="25" Click="PauseButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}"/>
-            <Button x:Name="StopButton" Content="⏹" Width="25" Click="StopButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}"/>
+            <Button x:Name="StartButton" Content="▶" Width="25" Click="StartButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Start this watcher"/>
+            <Button x:Name="PauseButton" Content="⏸" Width="25" Click="PauseButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Pause this wathcer"/>
+            <Button x:Name="StopButton" Content="⏹" Width="25" Click="StopButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Stop this watcher (resets counter)"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <Label Content="Name:" FontSize="20" Style="{StaticResource StandartLabelStyle}"/>

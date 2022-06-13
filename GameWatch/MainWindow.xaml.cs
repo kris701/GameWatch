@@ -66,7 +66,7 @@ namespace GameWatch
             _context.LoadContext(_savePath);
             Visibility = Visibility.Hidden;
             BlurHelper.EnableBlur(this);
-            await SwitchView(new MainOverview(_context, this));
+            await SwitchView(new MainWatcherView(_context, this));
         }
 
         private void NotifyIcon_TrayRightMouseDown(object sender, RoutedEventArgs e)

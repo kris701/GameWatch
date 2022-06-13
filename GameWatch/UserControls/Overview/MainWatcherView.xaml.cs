@@ -18,9 +18,9 @@ using System.Windows.Shapes;
 namespace GameWatch.UserControls.Overview
 {
     /// <summary>
-    /// Interaction logic for MainOverview.xaml
+    /// Interaction logic for MainWatcherView.xaml
     /// </summary>
-    public partial class MainOverview : UserControl, TrayWindowSwitchable
+    public partial class MainWatcherView : UserControl, TrayWindowSwitchable
     {
         private WindowContext _context;
         private ITrayWindow _trayWindow;
@@ -28,7 +28,7 @@ namespace GameWatch.UserControls.Overview
         public UIElement Element { get; }
         public double TWidth { get; } = 800;
         public double THeight { get; } = 450;
-        public MainOverview(WindowContext context, ITrayWindow trayWindow)
+        public MainWatcherView(WindowContext context, ITrayWindow trayWindow)
         {
             InitializeComponent();
             _context = context;
@@ -49,7 +49,7 @@ namespace GameWatch.UserControls.Overview
         {
             PauseAllWatchers();
             _trayWindow.SaveContext();
-            await _trayWindow.SwitchView(new WatcherSettings(_context, _trayWindow));
+            await _trayWindow.SwitchView(new SettingsView(_context, _trayWindow));
         }
 
         private void StartAllButton_Click(object sender, RoutedEventArgs e)

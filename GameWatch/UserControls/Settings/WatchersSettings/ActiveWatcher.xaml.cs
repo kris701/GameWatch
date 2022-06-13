@@ -56,6 +56,8 @@ namespace GameWatch.UserControls
                 isValid = false;
             if (!InputHelper.IsTextboxValid(AllowedTimeTextbox, !TimeSpan.TryParse(AllowedTimeTextbox.Text, out res), _defaultTextboxBackground))
                 isValid = false;
+            if (!InputHelper.IsTextboxValid(AllowedTimeTextbox, res == TimeSpan.Zero, _defaultTextboxBackground))
+                isValid = false;
             return isValid;
         }
 
