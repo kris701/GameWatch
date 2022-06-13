@@ -39,8 +39,7 @@ namespace GameWatch.UserControls
             _context = context;
             _trayWindow = trayWindow;
             Element = this;
-            _defaultTextboxBackground = RefreshRateTextbox.Background;
-            RefreshRateTextbox.Text = context.Settings.RefreshRate.ToString();
+            _defaultTextboxBackground = Brushes.Transparent;
             UpdateWatcherList();
             SetGeneralSettings();
         }
@@ -124,6 +123,8 @@ namespace GameWatch.UserControls
         {
             RunAtStartupCheckbox.IsChecked = _context.Settings.RunAtStartup;
             ResetWatchersCheckbox.IsChecked = _context.Settings.ResetWatchersWhenClosingSettings;
+            _defaultTextboxBackground = RefreshRateTextbox.Background;
+            RefreshRateTextbox.Text = _context.Settings.RefreshRate.ToString();
         }
 
         private void UIInputChanged(object sender, TextChangedEventArgs e)

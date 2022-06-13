@@ -37,15 +37,17 @@ namespace GameWatch
             _context = new WindowContext(new List<WatchedProcessGroup>(), new List<IWatcherService>(), new SettingsModel());
         }
 
-        public void SwitchView(TrayWindowSwitchable toElement)
+        public async Task SwitchView(TrayWindowSwitchable toElement)
         {
             SaveContext();
+            await FadeHelper.FadeOut(this, 0.1, 10);
             MainPanel.Children.Clear();
             MainPanel.Children.Add(toElement.Element);
             Width = toElement.TWidth;
             Height = toElement.THeight;
             this.Left = SystemParameters.PrimaryScreenWidth - this.Width - 10;
             this.Top = SystemParameters.PrimaryScreenHeight - this.Height - 45;
+            await FadeHelper.FadeIn(this, 0.1, 10);
         }
 
         public void SaveContext()
@@ -58,14 +60,14 @@ namespace GameWatch
             SaveContext();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             NotifyIcon.Icon = new System.Drawing.Icon("gamewatchicon.ico");
             SetupContextMenu();
             _context.LoadContext(_savePath);
             Visibility = Visibility.Hidden;
             BlurHelper.EnableBlur(this);
-            SwitchView(new MainOverview(_context, this));
+            await SwitchView(new MainOverview(_context, this));
         }
 
         private void NotifyIcon_TrayRightMouseDown(object sender, RoutedEventArgs e)

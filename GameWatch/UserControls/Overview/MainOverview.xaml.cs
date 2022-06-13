@@ -45,11 +45,11 @@ namespace GameWatch.UserControls.Overview
             StartAllWatchers();
         }
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             PauseAllWatchers();
             _trayWindow.SaveContext();
-            _trayWindow.SwitchView(new WatcherSettings(_context, _trayWindow));
+            await _trayWindow.SwitchView(new WatcherSettings(_context, _trayWindow));
         }
 
         private void StartAllButton_Click(object sender, RoutedEventArgs e)
