@@ -28,7 +28,6 @@ namespace GameWatch
     /// </summary>
     public partial class MainWindow : Window, ITrayWindow
     {
-        private string _savePath = "saves/";
         private WindowContext _context;
 
         public MainWindow()
@@ -52,7 +51,7 @@ namespace GameWatch
 
         public void SaveContext()
         {
-            _context.SaveContext(_savePath);
+            _context.SaveContext();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -63,7 +62,7 @@ namespace GameWatch
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             NotifyIcon.Icon = new System.Drawing.Icon("gamewatchicon.ico");
-            _context.LoadContext(_savePath);
+            _context.LoadContext();
             Visibility = Visibility.Hidden;
             BlurHelper.EnableBlur(this);
             await SwitchView(new MainWatcherView(_context, this));

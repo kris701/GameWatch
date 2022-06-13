@@ -11,6 +11,7 @@ namespace GameWatch.Models
 {
     public class WindowContext
     {
+        public static readonly string SavePath = "saves/";
         private static readonly string _watchersPath = "watchers";
         private static readonly string _settingsFile = "settings";
 
@@ -25,25 +26,28 @@ namespace GameWatch.Models
             Settings = settings;
         }
 
-        public void SaveContext(string path)
+        public void SaveContext()
         {
-            if (!Directory.Exists($"{path}/{_watchersPath}/"))
-                Directory.CreateDirectory($"{path}/{_watchersPath}/");
-            foreach (var file in Directory.GetFiles($"{path}/{_watchersPath}/"))
+            if (!Directory.Exists($"{SavePath}/{_watchersPath}/"))
+                Directory.CreateDirectory($"{SavePath}/{_watchersPath}/");
+            foreach (var file in Directory.GetFiles($"{SavePath}/{_watchersPath}/"))
                 File.Delete(file);
             foreach (var watchedProcess in Watched)
-                IOHelper.SaveJsonObject($"{path}/{_watchersPath}/{watchedProcess.ID}.json", watchedProcess);
-            IOHelper.SaveJsonObject($"{path}/{_settingsFile}.json", Settings);
+                IOHelper.SaveJsonObject($"{SavePath}/{_watchersPath}/{watchedProcess.ID}.json", watchedProcess);
+            IOHelper.SaveJsonObject($"{SavePath}/{_settingsFile}.json", Settings);
         }
 
-        public void LoadContext(string path)
+        public void LoadContext()
         {
-            if (!Directory.Exists($"{path}/{_watchersPath}/"))
-                Directory.CreateDirectory($"{path}/{_watchersPath}/");
-            Watched = IOHelper.LoadJsonObjects<WatchedProcessGroup>($"{path}/{_watchersPath}/");
-            if (File.Exists($"{path}/{_settingsFile}.json"))
+            Watched.Clear();
+            Watchers.Clear();
+            Settings = new SettingsModel();
+            if (!Directory.Exists($"{SavePath}/{_watchersPath}/"))
+                Directory.CreateDirectory($"{SavePath}/{_watchersPath}/");
+            Watched = IOHelper.LoadJsonObjects<WatchedProcessGroup>($"{SavePath}/{_watchersPath}/");
+            if (File.Exists($"{SavePath}/{_settingsFile}.json"))
             {
-                var settings = IOHelper.LoadJsonObject<SettingsModel>($"{path}/{_settingsFile}.json");
+                var settings = IOHelper.LoadJsonObject<SettingsModel>($"{SavePath}/{_settingsFile}.json");
                 if (settings != null)
                     Settings = settings;
             }

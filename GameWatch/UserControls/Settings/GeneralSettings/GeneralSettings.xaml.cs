@@ -1,7 +1,11 @@
 ﻿using GameWatch.Helpers;
 using GameWatch.Models;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +27,13 @@ namespace GameWatch.UserControls.Settings
     public partial class GeneralSettings : UserControl, ValidatorControl
     {
         private WindowContext _context;
+        private SettingsView _parent;
         private Brush _defaultTextboxBackground;
 
-        public GeneralSettings(WindowContext context)
+        public GeneralSettings(WindowContext context, SettingsView parent)
         {
             InitializeComponent();
+            _parent = parent;
             _context = context;
             RunAtStartupCheckbox.IsChecked = _context.Settings.RunAtStartup;
             ResetWatchersCheckbox.IsChecked = _context.Settings.ResetWatchersWhenClosingSettings;
@@ -62,7 +68,7 @@ namespace GameWatch.UserControls.Settings
 
         private void SetStartupSetting()
         {
-            var module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
+            var module = Process.GetCurrentProcess().MainModule;
             if (module == null || module.FileName == null)
                 throw new Exception("Could not find current running assembly!");
 
@@ -76,6 +82,54 @@ namespace GameWatch.UserControls.Settings
                     $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\",
                     "GameWatch",
                     module.FileName);
+        }
+
+        private void ExportSettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.DefaultExt = ".zip";
+            saveFileDialog.Filter = "Zip file (*.zip) | *.zip";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var path = GetSavePath();
+                if (File.Exists(saveFileDialog.FileName))
+                    File.Delete(saveFileDialog.FileName);
+                ZipFile.CreateFromDirectory(path, saveFileDialog.FileName);
+            }
+        }
+
+        private async void ImportSettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.DefaultExt = ".zip";
+            openFileDialog.Filter = "Zip file (*.zip) | *.zip";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var path = GetSavePath();
+                if (Directory.Exists(path))
+                    Directory.Delete(path, true);
+                ZipFile.ExtractToDirectory(openFileDialog.FileName, path);
+                _context.LoadContext();
+                await _parent.SwitchView();
+            }
+        }
+
+        private async void DeleteSettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var path = GetSavePath();
+            if (Directory.Exists(path))
+                Directory.Delete(path, true);
+            _context.LoadContext();
+            await _parent.SwitchView();
+        }
+
+        private string GetSavePath()
+        {
+            var assembly = System.Reflection.Assembly.GetEntryAssembly();
+            if (assembly == null)
+                throw new Exception("");
+            return System.IO.Path.GetDirectoryName(assembly.Location) + "\\" + WindowContext.SavePath;
         }
     }
 }

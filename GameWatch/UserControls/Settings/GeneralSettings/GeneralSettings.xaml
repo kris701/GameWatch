@@ -17,5 +17,8 @@
             <Label Content="Refresh Rate" Style="{StaticResource StandartLabelStyle}"/>
             <TextBox Grid.Column="1" x:Name="RefreshRateTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
         </Grid>
+        <Button x:Name="ExportSettingsButton" Content="Export Settings" Margin="5" Click="ExportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
+        <Button x:Name="ImportSettingsButton" Content="Import Settings" Margin="5" Click="ImportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
+        <Button x:Name="DeleteSettingsButton" Content="Delete Saved Settings" Margin="5" Click="DeleteSettingsButton_Click" Style="{StaticResource StandartExitButtonStyle}"/>
     </StackPanel>
 </UserControl>

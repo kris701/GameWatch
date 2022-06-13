@@ -43,14 +43,14 @@ namespace GameWatch.UserControls
             _trayWindow = trayWindow;
             Element = this;
 
-            _generalSettings = new GeneralSettings(context);
+            _generalSettings = new GeneralSettings(context, this);
             _watchersSettings = new WatchersSettings(context);
 
             GeneralSettingsExpander.Content = _generalSettings;
             WatchersSettingsExpander.Content = _watchersSettings;
         }
 
-        private void AcceptButton_Click(object sender, RoutedEventArgs e)
+        private async void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
             bool isValid = true;
             if (isValid)
@@ -67,7 +67,11 @@ namespace GameWatch.UserControls
                 _generalSettings.AcceptChanges();
                 _watchersSettings.AcceptChanges();
 
-                SwitchView();
+                if (_context.Settings.ResetWatchersWhenClosingSettings)
+                    foreach (var item in _context.Watched)
+                        item.Passed = TimeSpan.Zero;
+
+                await SwitchView();
             }
             else
             {
@@ -76,17 +80,14 @@ namespace GameWatch.UserControls
             }
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private async void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            SwitchView();
+            await SwitchView();
         }
 
-        private void SwitchView()
+        public async Task SwitchView()
         {
-            if (_context.Settings.ResetWatchersWhenClosingSettings)
-                foreach (var item in _context.Watched)
-                    item.Passed = TimeSpan.Zero;
-            _trayWindow.SwitchView(new MainWatcherView(_context, _trayWindow));
+            await _trayWindow.SwitchView(new MainWatcherView(_context, _trayWindow));
         }
     }
 }
