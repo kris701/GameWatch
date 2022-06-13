@@ -47,7 +47,7 @@ namespace GameWatch
             Height = toElement.THeight;
             this.Left = SystemParameters.PrimaryScreenWidth - this.Width - 10;
             this.Top = SystemParameters.PrimaryScreenHeight - this.Height - 45;
-            await FadeHelper.FadeIn(this, 0.1, 10);
+            await FadeHelper.FadeIn(this, 0.1, 10, 0.8);
         }
 
         public void SaveContext()
@@ -63,7 +63,6 @@ namespace GameWatch
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             NotifyIcon.Icon = new System.Drawing.Icon("gamewatchicon.ico");
-            SetupContextMenu();
             _context.LoadContext(_savePath);
             Visibility = Visibility.Hidden;
             BlurHelper.EnableBlur(this);
@@ -86,17 +85,6 @@ namespace GameWatch
         {
             await FadeHelper.FadeOut(this, 0.02, 10);
             Visibility = Visibility.Hidden;
-        }
-
-        private void SetupContextMenu()
-        {
-            ContextMenu contextMenu = new ContextMenu();
-            MenuItem item = new MenuItem();
-            item.Header = "Exit";
-            item.Click += ExitButton_Click;
-            contextMenu.Items.Add(item);
-            NotifyIcon.ContextMenu = contextMenu;
-            NotifyIcon.ContextMenu.IsOpen = false;
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
