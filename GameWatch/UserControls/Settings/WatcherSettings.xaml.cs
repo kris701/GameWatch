@@ -1,6 +1,8 @@
 ﻿using GameWatch.Helpers;
 using GameWatch.Models;
 using GameWatch.UserControls.Overview;
+using GameWatch.UserControls.Settings;
+using GameWatch.UserControls.Settings.WatchersSettings;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -25,10 +27,11 @@ namespace GameWatch.UserControls
     /// </summary>
     public partial class WatcherSettings : UserControl, TrayWindowSwitchable
     {
+        private GeneralSettings _generalSettings;
+        private WatchersSettings _watchersSettings;
+
         private WindowContext _context;
         private ITrayWindow _trayWindow;
-        private bool IsValid = false;
-        private Brush _defaultTextboxBackground;
 
         public UIElement Element { get; }
         public double TWidth { get; } = 400;
@@ -39,107 +42,46 @@ namespace GameWatch.UserControls
             _context = context;
             _trayWindow = trayWindow;
             Element = this;
-            _defaultTextboxBackground = Brushes.Transparent;
-            UpdateWatcherList();
-            SetGeneralSettings();
-        }
 
-        private void UpdateWatcherList()
-        {
-            ActiveWatchersPanel.Children.Clear();
-            foreach (var item in _context.Watched)
-                ActiveWatchersPanel.Children.Add(new ActiveWatcher(this, item));
+            _generalSettings = new GeneralSettings(context);
+            _watchersSettings = new WatchersSettings(context);
+
+            GeneralSettingsExpander.Content = _generalSettings;
+            WatchersSettingsExpander.Content = _watchersSettings;
         }
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            // Check if watchers are valid
-            bool allFine = true;
-            foreach (var child in ActiveWatchersPanel.Children)
+            bool isValid = true;
+            if (isValid)
+                isValid = _generalSettings.IsValid();
+            else
+                _generalSettings.IsValid();
+            if (isValid)
+                isValid = _watchersSettings.IsValid();
+            else
+                _watchersSettings.IsValid();
+
+            if (isValid)
             {
-                if (child is ActiveWatcher watcher)
-                {
-                    allFine = watcher.IsValid;
-                    if (!allFine)
-                        break;
-                }
-            }
-            if (allFine && IsValid)
-            {
-                if (_context.Settings.ResetWatchersWhenClosingSettings)
-                    foreach (var item in _context.Watched)
-                        item.Passed = TimeSpan.Zero;
-                _trayWindow.SwitchView(new MainOverview(_context, _trayWindow));
-            }
-        }
+                _generalSettings.AcceptChanges();
+                _watchersSettings.AcceptChanges();
 
-        private void AddNewWatcherButton_Click(object sender, RoutedEventArgs e)
-        {
-            _context.Watched.Add(
-            new WatchedProcessGroup(
-                Guid.NewGuid(),
-                new List<string>(),
-                "",
-                TimeSpan.Zero));
-            UpdateWatcherList();
-        }
-
-        public void RemoveWatcher(WatchedProcessGroup watcher)
-        {
-            _context.Watched.Remove(watcher);
-            UpdateWatcherList();
-        }
-
-        private void RunAtStartupCheckbox_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is CheckBox check && check.IsChecked != null)
-            {
-                _context.Settings.RunAtStartup = (bool)check.IsChecked;
-
-                var module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
-                if (module == null || module.FileName == null)
-                    throw new Exception("Could not find current running assembly!");
-
-                if (_context.Settings.RunAtStartup)
-                    IOHelper.GenerateShortcut(
-                        $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\",
-                        "GameWatch",
-                        module.FileName);
-                else
-                    IOHelper.RemoveShortcut(
-                        $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\",
-                        "GameWatch",
-                        module.FileName);
+                SwitchView();
             }
         }
 
-        private void ResetWatchersCheckbox_Click(object sender, RoutedEventArgs e)
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is CheckBox check && check.IsChecked != null)
-                _context.Settings.ResetWatchersWhenClosingSettings = (bool)check.IsChecked;
+            SwitchView();
         }
 
-        private void SetGeneralSettings()
+        private void SwitchView()
         {
-            RunAtStartupCheckbox.IsChecked = _context.Settings.RunAtStartup;
-            ResetWatchersCheckbox.IsChecked = _context.Settings.ResetWatchersWhenClosingSettings;
-            _defaultTextboxBackground = RefreshRateTextbox.Background;
-            RefreshRateTextbox.Text = _context.Settings.RefreshRate.ToString();
-        }
-
-        private void UIInputChanged(object sender, TextChangedEventArgs e)
-        {
-            TimeSpan res = TimeSpan.Zero;
-            IsValid = true;
-            if (!InputHelper.IsTextboxValid(RefreshRateTextbox, !TimeSpan.TryParse(RefreshRateTextbox.Text, out res), _defaultTextboxBackground))
-                IsValid = false;
-            if (!InputHelper.IsTextboxValid(RefreshRateTextbox, res == TimeSpan.Zero, _defaultTextboxBackground))
-                IsValid = false;
-
-            if (IsValid)
-            {
-                _context.Settings.RefreshRate = res;
-            }
+            if (_context.Settings.ResetWatchersWhenClosingSettings)
+                foreach (var item in _context.Watched)
+                    item.Passed = TimeSpan.Zero;
+            _trayWindow.SwitchView(new MainOverview(_context, _trayWindow));
         }
     }
 }

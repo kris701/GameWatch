@@ -1,5 +1,7 @@
 ﻿using GameWatch.Helpers;
 using GameWatch.Models;
+using GameWatch.UserControls.Settings;
+using GameWatch.UserControls.Settings.WatchersSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,46 +23,50 @@ namespace GameWatch.UserControls
     /// <summary>
     /// Interaction logic for ActiveWatcher.xaml
     /// </summary>
-    public partial class ActiveWatcher : UserControl
+    public partial class ActiveWatcher : UserControl, ValidatorControl
     {
-        private Brush _defaultTextboxBackground;
-        private WatchedProcessGroup _watchedProcess;
-        private WatcherSettings _parent;
-        public bool IsValid = true;
+        public WatchedProcessGroup WatchedProcess { get; }
 
-        public ActiveWatcher(WatcherSettings parent, WatchedProcessGroup watchedProcess)
+        private Brush _defaultTextboxBackground;
+        private WatchersSettings _parent;
+
+        public ActiveWatcher(WatchersSettings parent, WatchedProcessGroup watchedProcess)
         {
             InitializeComponent();
-            _watchedProcess = watchedProcess;
+            WatchedProcess = watchedProcess;
             _parent = parent;
-            ProcessNameTextbox.Text = String.Join(",", _watchedProcess.ProcessNames);
-            UINameTextbox.Text = _watchedProcess.UIName;
-            AllowedTimeTextbox.Text = _watchedProcess.Allowed.ToString();
+            ProcessNameTextbox.Text = String.Join(",", WatchedProcess.ProcessNames);
+            UINameTextbox.Text = WatchedProcess.UIName;
+            AllowedTimeTextbox.Text = WatchedProcess.Allowed.ToString();
             _defaultTextboxBackground = AllowedTimeTextbox.Background;
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            _parent.RemoveWatcher(_watchedProcess);
+            _parent.RemoveWatcher(this);
         }
 
-        private void UIInputChanged(object sender, TextChangedEventArgs e)
+        public bool IsValid()
         {
             TimeSpan res = TimeSpan.Zero;
-            IsValid = true;
+            bool isValid = true;
             if (!InputHelper.IsTextboxValid(ProcessNameTextbox, ProcessNameTextbox.Text.Split(",").ToList().Count == 0, _defaultTextboxBackground))
-                IsValid = false;
+                isValid = false;
             if (!InputHelper.IsTextboxValid(UINameTextbox, UINameTextbox.Text == "", _defaultTextboxBackground))
-                IsValid = false;
+                isValid = false;
             if (!InputHelper.IsTextboxValid(AllowedTimeTextbox, !TimeSpan.TryParse(AllowedTimeTextbox.Text, out res), _defaultTextboxBackground))
-                IsValid = false;
+                isValid = false;
+            return isValid;
+        }
 
-            if (IsValid)
+        public void AcceptChanges()
+        {
+            if (IsValid())
             {
-                _watchedProcess.ProcessNames = ProcessNameTextbox.Text.Split(",").ToList();
-                _watchedProcess.UIName = UINameTextbox.Text;
-                _watchedProcess.Allowed = res;
-                _watchedProcess.LastTick = DateTime.UtcNow;
+                WatchedProcess.ProcessNames = ProcessNameTextbox.Text.Split(",").ToList();
+                WatchedProcess.UIName = UINameTextbox.Text;
+                WatchedProcess.Allowed = TimeSpan.Parse(AllowedTimeTextbox.Text);
+                WatchedProcess.LastTick = DateTime.UtcNow;
             }
         }
     }

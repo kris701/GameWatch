@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="GameWatch.UserControls.Settings.WatchersSettings.WatchersSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GameWatch.UserControls.Settings.WatchersSettings"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel>
+        <Label Content="Active Watchers" Style="{StaticResource StandartLabelStyle}"/>
+        <Button Grid.Column="0" x:Name="AddNewWatcherButton" Content="Add New Watcher" Margin="5" Click="AddNewWatcherButton_Click" Style="{StaticResource StandartButtonStyle}"/>
+        <StackPanel x:Name="ActiveWatchersPanel" Background="#FF2B313C" Margin="5" MinHeight="100">
+
+        </StackPanel>
+    </StackPanel>
+</UserControl>

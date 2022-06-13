@@ -14,7 +14,7 @@
                 <ColumnDefinition Width="25"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Name" Style="{StaticResource StandartLabelStyle}"/>
-            <TextBox Grid.Column="1" x:Name="UINameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}" TextChanged="UIInputChanged"/>
+            <TextBox Grid.Column="1" x:Name="UINameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
             <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="The name of this group of processes that you want to monitor."/>
         </Grid>
         <Grid>
@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="25"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Process'" Style="{StaticResource StandartLabelStyle}"/>
-            <TextBox Grid.Column="1" x:Name="ProcessNameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}" TextChanged="UIInputChanged"/>
+            <TextBox Grid.Column="1" x:Name="ProcessNameTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
             <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="Names of the process' you want to monitor. You can add multiple, by seperating them with a ',' character."/>
         </Grid>
         <Grid>
@@ -34,7 +34,7 @@
                 <ColumnDefinition Width="25"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Allowed Time" Style="{StaticResource StandartLabelStyle}"/>
-            <TextBox Grid.Column="1" x:Name="AllowedTimeTextbox" TextChanged="UIInputChanged" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
+            <TextBox Grid.Column="1" x:Name="AllowedTimeTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
             <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="How much time you will allow yourself to have these process' running before a notification is given. Given as HH:MM:SS."/>
         </Grid>
         <Button Grid.Column="1" x:Name="RemoveButton" Content="Remove" Click="RemoveButton_Click" Margin="5" Style="{StaticResource StandartExitButtonStyle}"/>

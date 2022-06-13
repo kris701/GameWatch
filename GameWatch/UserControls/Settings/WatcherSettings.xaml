@@ -16,33 +16,23 @@
         <Label Content="GameWatch Settings" FontSize="20" Style="{StaticResource StandartLabelStyle}"/>
         <ScrollViewer Grid.Row="1">
             <StackPanel>
-                <Expander Grid.Row="1" Header="General" IsEnabled="True" Margin="5" Background="#FF444852" Style="{StaticResource StandartExpanderStyle}">
-                    <StackPanel>
-                        <CheckBox x:Name="RunAtStartupCheckbox" Content="Run At Startup?" Margin="5" Style="{StaticResource StandartCheckBoxStyle}" Click="RunAtStartupCheckbox_Click"/>
-                        <CheckBox x:Name="ResetWatchersCheckbox" Content="Reset Watchers when Accept is clicked?" Margin="5" Style="{StaticResource StandartCheckBoxStyle}" Click="ResetWatchersCheckbox_Click"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Content="Refresh Rate" Style="{StaticResource StandartLabelStyle}"/>
-                            <TextBox Grid.Column="1" x:Name="RefreshRateTextbox" TextChanged="UIInputChanged" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
-                        </Grid>
-                    </StackPanel>
+                <Expander x:Name="GeneralSettingsExpander" Grid.Row="1" Header="General" IsEnabled="True" Margin="5" Background="#FF444852" Style="{StaticResource StandartExpanderStyle}">
+                    
                 </Expander>
 
-                <Expander Grid.Row="2" Header="Watchers" Margin="5" Background="#FF444852" Style="{StaticResource StandartExpanderStyle}">
-                    <StackPanel>
-                        <Label Content="Active Watchers" Style="{StaticResource StandartLabelStyle}"/>
-                        <Button Grid.Column="0" x:Name="AddNewWatcherButton" Content="Add New Watcher" Margin="5" Click="AddNewWatcherButton_Click" Style="{StaticResource StandartButtonStyle}"/>
-                        <StackPanel x:Name="ActiveWatchersPanel" Background="#FF2B313C" Margin="5" MinHeight="100">
-
-                        </StackPanel>
-                    </StackPanel>
+                <Expander x:Name="WatchersSettingsExpander" Grid.Row="2" Header="Watchers" Margin="5" Background="#FF444852" Style="{StaticResource StandartExpanderStyle}">
+                    
                 </Expander>
             </StackPanel>
         </ScrollViewer>
-        
-        <Button Grid.Row="2" x:Name="AcceptButton" Content="Accept" Margin="5" Click="AcceptButton_Click" Style="{StaticResource StandartButtonStyle}"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" x:Name="AcceptButton" Content="Accept" Margin="5" Click="AcceptButton_Click" Style="{StaticResource StandartButtonStyle}"/>
+            <Button Grid.Column="1" x:Name="CancelButton" Content="Cancel" Margin="5" Click="CancelButton_Click"  Style="{StaticResource StandartExitButtonStyle}"/>
+        </Grid>
     </Grid>
 </UserControl>
