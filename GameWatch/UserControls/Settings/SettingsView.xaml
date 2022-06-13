@@ -16,10 +16,20 @@
         <Label Content="GameWatch Settings" FontSize="20" Style="{StaticResource StandartLabelStyle}"/>
         <ScrollViewer Grid.Row="1">
             <StackPanel>
-                <Expander x:Name="GeneralSettingsExpander" Grid.Row="1" Header="General" IsEnabled="True" Margin="5" Background="#FF444852" Style="{StaticResource StandartExpanderStyle}">
+                <Expander x:Name="HelpExpander" Header="Help" Margin="5" Background="#FF444852" IsExpanded="false" Style="{StaticResource StandartExpanderStyle}">
+                    <TextBlock Margin="5" TextWrapping="Wrap">
+                        This menu contains all the settings that is relevant for configuring GameWatch
+                        <LineBreak/>
+                        <LineBreak/>
+                        You can simply look though each submenu, and change settigns. Nothing is saved until you press "Accept". 
+                        If some setting values are invalid, the background will be shown in red, indicating you need to fix it.
+                        If you dont want to save changes, you can click cancel and return to the previous view without saving.
+                    </TextBlock>
+                </Expander>
+                <Expander x:Name="GeneralSettingsExpander" Header="General" Margin="5" Background="#FF444852" IsExpanded="true" Style="{StaticResource StandartExpanderStyle}">
                 </Expander>
 
-                <Expander x:Name="WatchersSettingsExpander" Grid.Row="2" Header="Watchers" Margin="5" Background="#FF444852" Style="{StaticResource StandartExpanderStyle}">
+                <Expander x:Name="WatchersSettingsExpander" Header="Watchers" Margin="5" Background="#FF444852" IsExpanded="true" Style="{StaticResource StandartExpanderStyle}">
                 </Expander>
             </StackPanel>
         </ScrollViewer>
