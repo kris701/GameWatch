@@ -1,5 +1,6 @@
 ﻿using GameWatch.Helpers;
 using GameWatch.Models;
+using GameWatch.UserControls.Confirmation;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -101,27 +102,37 @@ namespace GameWatch.UserControls.Settings
 
         private async void ImportSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.DefaultExt = ".zip";
-            openFileDialog.Filter = "Zip file (*.zip) | *.zip";
-            if (openFileDialog.ShowDialog() == true)
+            var window = new ConfirmationWindow("This action will remove all current settings.");
+            window.ShowDialog();
+            if (window.Action == ConfirmationAction.Ok)
             {
-                var path = GetSavePath();
-                if (Directory.Exists(path))
-                    Directory.Delete(path, true);
-                ZipFile.ExtractToDirectory(openFileDialog.FileName, path);
-                _context.LoadContext();
-                await _parent.SwitchView();
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.DefaultExt = ".zip";
+                openFileDialog.Filter = "Zip file (*.zip) | *.zip";
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    var path = GetSavePath();
+                    if (Directory.Exists(path))
+                        Directory.Delete(path, true);
+                    ZipFile.ExtractToDirectory(openFileDialog.FileName, path);
+                    _context.LoadContext();
+                    await _parent.SwitchView();
+                }
             }
         }
 
         private async void DeleteSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            var path = GetSavePath();
-            if (Directory.Exists(path))
-                Directory.Delete(path, true);
-            _context.LoadContext();
-            await _parent.SwitchView();
+            var window = new ConfirmationWindow("This action will remove all current settings.");
+            window.ShowDialog();
+            if (window.Action == ConfirmationAction.Ok)
+            {
+                var path = GetSavePath();
+                if (Directory.Exists(path))
+                    Directory.Delete(path, true);
+                _context.LoadContext();
+                await _parent.SwitchView();
+            }
         }
 
         private string GetSavePath()
