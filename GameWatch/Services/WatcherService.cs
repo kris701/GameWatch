@@ -48,9 +48,11 @@ namespace GameWatch.Services
 
         private void Ticker(object? sender, EventArgs e)
         {
-            if (WatchModelGroup.LastTick.DayOfYear != DateTime.UtcNow.DayOfYear)
+            if (DateTime.UtcNow >= WatchModelGroup.LastTick.AddHours(24))
+            {
                 WatchModelGroup.Passed = TimeSpan.Zero;
-            WatchModelGroup.LastTick = DateTime.UtcNow;
+                WatchModelGroup.LastTick = DateTime.UtcNow;
+            }
 
             bool any = false;
             foreach (var process in WatchModelGroup.ProcessNames)

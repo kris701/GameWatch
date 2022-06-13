@@ -25,7 +25,6 @@ namespace GameWatch.UserControls.Welcome
         private WindowContext _context;
         private ITrayWindow _trayWindow;
 
-
         public UIElement Element { get; }
         public double TWidth { get; } = 800;
         public double THeight { get; } = 450;
