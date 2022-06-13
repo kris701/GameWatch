@@ -28,6 +28,7 @@ namespace GameWatch
     /// </summary>
     public partial class MainWindow : Window, ITrayWindow
     {
+        private bool _isActive = false;
         private WindowContext _context;
 
         public MainWindow()
@@ -82,13 +83,28 @@ namespace GameWatch
 
         private async void Window_Deactivated(object sender, EventArgs e)
         {
-            await FadeHelper.FadeOut(this, 0.02, 10);
-            Visibility = Visibility.Hidden;
+            _isActive = false;
+            for(int i = 0; i < _context.Settings.WindowFadeDelay.TotalMilliseconds; i += 100)
+            {
+                await Task.Delay(100);
+                if (_isActive)
+                    break;
+            }
+            if (!_isActive)
+            {
+                await FadeHelper.FadeOut(this, 0.02, 10);
+                Visibility = Visibility.Hidden;
+            }
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            _isActive = true;
         }
     }
 }

@@ -40,6 +40,7 @@ namespace GameWatch.UserControls.Settings
             ResetWatchersCheckbox.IsChecked = _context.Settings.ResetWatchersWhenClosingSettings;
             _defaultTextboxBackground = RefreshRateTextbox.Background;
             RefreshRateTextbox.Text = _context.Settings.RefreshRate.ToString();
+            WindowFadeDelayTextbox.Text = _context.Settings.WindowFadeDelay.ToString();
         }
 
         public bool IsValid()
@@ -50,6 +51,8 @@ namespace GameWatch.UserControls.Settings
                 isValid = false;
             if (!InputHelper.IsTextboxValid(RefreshRateTextbox, res == TimeSpan.Zero, _defaultTextboxBackground))
                 isValid = false;
+            if (!InputHelper.IsTextboxValid(WindowFadeDelayTextbox, !TimeSpan.TryParse(RefreshRateTextbox.Text, out res), _defaultTextboxBackground))
+                isValid = false;
             return isValid;
         }
 
@@ -58,6 +61,7 @@ namespace GameWatch.UserControls.Settings
             if (IsValid())
             {
                 _context.Settings.RefreshRate = TimeSpan.Parse(RefreshRateTextbox.Text);
+                _context.Settings.WindowFadeDelay = TimeSpan.Parse(WindowFadeDelayTextbox.Text);
                 if (ResetWatchersCheckbox.IsChecked != null)
                     _context.Settings.ResetWatchersWhenClosingSettings = (bool)ResetWatchersCheckbox.IsChecked;
                 if (RunAtStartupCheckbox.IsChecked != null)

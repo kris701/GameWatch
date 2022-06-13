@@ -7,15 +7,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
-        <CheckBox x:Name="RunAtStartupCheckbox" Content="Run At Startup?" Margin="5" Style="{StaticResource StandartCheckBoxStyle}"/>
-        <CheckBox x:Name="ResetWatchersCheckbox" Content="Reset Watchers when Accept is clicked?" Margin="5" Style="{StaticResource StandartCheckBoxStyle}"/>
+        <CheckBox x:Name="RunAtStartupCheckbox" Content="Run At Startup?" Margin="5" Style="{StaticResource StandartCheckBoxStyle}" ToolTip="If GameWatch should run when Windows starts."/>
+        <CheckBox x:Name="ResetWatchersCheckbox" Content="Reset Watchers when Accept is clicked?" Margin="5" Style="{StaticResource StandartCheckBoxStyle}" ToolTip="If the current counted values in the watchers should be reset when the 'Accept' button is clicked."/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Refresh Rate" Style="{StaticResource StandartLabelStyle}"/>
+            <Label Content="Refresh Rate" Style="{StaticResource StandartLabelStyle}" ToolTip="How often the watchers should refresh."/>
             <TextBox Grid.Column="1" x:Name="RefreshRateTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Fade Delay" Style="{StaticResource StandartLabelStyle}" ToolTip="Additional delay when the window looses focus and fades away."/>
+            <TextBox Grid.Column="1" x:Name="WindowFadeDelayTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
         </Grid>
         <Button x:Name="ExportSettingsButton" Content="Export Settings" Margin="5" Click="ExportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
         <Button x:Name="ImportSettingsButton" Content="Import Settings" Margin="5" Click="ImportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
