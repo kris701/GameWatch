@@ -2,7 +2,6 @@
 using GameWatch.Services;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,15 +86,6 @@ namespace GameWatch.UserControls.Overview
         {
             foreach (var watcher in _context.Watchers)
                 watcher.PauseWatch();
-        }
-
-        private void GithubLinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(new ProcessStartInfo
-            {
-                FileName = "https://github.com/kris701/GameWatch",
-                UseShellExecute = true
-            });
         }
     }
 }
