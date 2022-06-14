@@ -12,6 +12,7 @@ namespace GameWatch.Models
         public bool ResetWatchersWhenClosingSettings { get; set; }
         public TimeSpan RefreshRate { get; set; }
         public TimeSpan WindowFadeDelay { get; set; }
+        public TimeSpan ResetTime { get; set; }
 
         public SettingsModel()
         {
@@ -19,14 +20,16 @@ namespace GameWatch.Models
             ResetWatchersWhenClosingSettings = true;
             RefreshRate = TimeSpan.FromSeconds(1);
             WindowFadeDelay = TimeSpan.Zero;
+            ResetTime = TimeSpan.FromHours(24);
         }
 
-        public SettingsModel(bool runAtStartup, bool resetWatchersWhenClosingSettings, TimeSpan refreshRate, TimeSpan windowFadeDelay)
+        public SettingsModel(bool runAtStartup, bool resetWatchersWhenClosingSettings, TimeSpan refreshRate, TimeSpan windowFadeDelay, TimeSpan resetTime)
         {
             RunAtStartup = runAtStartup;
             ResetWatchersWhenClosingSettings = resetWatchersWhenClosingSettings;
             RefreshRate = refreshRate;
             WindowFadeDelay = windowFadeDelay;
+            ResetTime = resetTime;
         }
     }
 }
