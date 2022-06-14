@@ -15,16 +15,16 @@ namespace GameWatch.Services
     {
         private DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
-        public TimeSpan RefreshRate { get; }
+        public SettingsModel Settings { get; }
         public WatchedProcessGroup WatchModelGroup { get; }
 
-        public WatcherService(WatchedProcessGroup watchModel, TimeSpan refreshRate)
+        public WatcherService(WatchedProcessGroup watchModel, SettingsModel settings)
         {
             WatchModelGroup = watchModel;
+            Settings = settings;
 
             _dispatcherTimer.Tick += Ticker;
-            RefreshRate = refreshRate;
-            _dispatcherTimer.Interval = refreshRate;
+            _dispatcherTimer.Interval = Settings.RefreshRate;
         }
 
         public void StartWatch()
@@ -48,25 +48,12 @@ namespace GameWatch.Services
 
         private void Ticker(object? sender, EventArgs e)
         {
-            if (DateTime.UtcNow >= WatchModelGroup.LastTick.AddHours(24))
-            {
-                WatchModelGroup.Passed = TimeSpan.Zero;
-                WatchModelGroup.LastTick = DateTime.UtcNow;
-            }
+            DetermineIfResetIsNeeded();
 
-            bool any = false;
-            foreach (var process in WatchModelGroup.ProcessNames)
-            {
-                if (Process.GetProcessesByName(process).Length > 0)
-                {
-                    any = true;
-                    break;
-                }
-            }
-            if (any)
+            if (IsAnyWatchedProcessRunning())
             {
                 WatchModelGroup.Status = WatcherStatus.Counting;
-                WatchModelGroup.Passed = WatchModelGroup.Passed.Add(RefreshRate);
+                WatchModelGroup.Passed = WatchModelGroup.Passed.Add(Settings.RefreshRate);
 
                 if (WatchModelGroup.Passed >= WatchModelGroup.Allowed)
                 {
@@ -77,6 +64,39 @@ namespace GameWatch.Services
             }
             else
                 WatchModelGroup.Status = WatcherStatus.Searching;
+        }
+
+        private bool IsAnyWatchedProcessRunning()
+        {
+            foreach (var process in WatchModelGroup.ProcessNames)
+                if (Process.GetProcessesByName(process).Length > 0)
+                    return true;
+            return false;
+        }
+
+        private void DetermineIfResetIsNeeded()
+        {
+            switch (Settings.ResetOption)
+            {
+                case WatcherResetOptions.ResetOverMidnight:
+                    if (WatchModelGroup.LastTick.DayOfYear != DateTime.UtcNow.DayOfYear)
+                        ResetWatcher();
+                    break;
+                case WatcherResetOptions.ResetAfter24h:
+                    if (DateTime.UtcNow >= WatchModelGroup.LastTick.AddHours(12))
+                        ResetWatcher();
+                    break;
+                case WatcherResetOptions.ResetAfter12h:
+                    if (DateTime.UtcNow >= WatchModelGroup.LastTick.AddHours(24))
+                        ResetWatcher();
+                    break;
+            }
+        }
+
+        private void ResetWatcher()
+        {
+            WatchModelGroup.Passed = TimeSpan.Zero;
+            WatchModelGroup.LastTick = DateTime.UtcNow;
         }
 
         private void NotificationChoice(NotificationAction action)

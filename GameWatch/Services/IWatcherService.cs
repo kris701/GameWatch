@@ -9,7 +9,7 @@ namespace GameWatch.Services
 {
     public interface IWatcherService
     {
-        public TimeSpan RefreshRate { get; }
+        public SettingsModel Settings { get; }
         public WatchedProcessGroup WatchModelGroup { get; }
         public void StartWatch();
         public void StopWatch();

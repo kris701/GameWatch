@@ -21,5 +21,17 @@ namespace GameWatch.Helpers
                 element.Background = defaultBackground;
             return true;
         }
+
+        public static bool IsComboboxValid(ComboBox element, bool check, Brush defaultForeground)
+        {
+            if (check)
+            {
+                element.Foreground = Brushes.DarkRed;
+                return false;
+            }
+            else
+                element.Foreground = defaultForeground;
+            return true;
+        }
     }
 }

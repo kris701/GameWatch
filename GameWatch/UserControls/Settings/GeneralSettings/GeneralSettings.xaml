@@ -43,6 +43,16 @@
             <TextBox Grid.Column="1" x:Name="WindowFadeDelayTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
             <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="Additional delay when the window looses focus and fades away."/>
         </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Reset Watchers" Style="{StaticResource StandartLabelStyle}"/>
+            <ComboBox x:Name="WatcherResetOptionsCombobox" Grid.Column="1" Margin="5" Style="{StaticResource StandartComboboxStyle}"/>
+            <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="Setting for when the watchers should reset."/>
+        </Grid>
         <Button x:Name="ExportSettingsButton" Content="Export Settings" Margin="5" Click="ExportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
         <Button x:Name="ImportSettingsButton" Content="Import Settings" Margin="5" Click="ImportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
         <Button x:Name="DeleteSettingsButton" Content="Delete Saved Settings" Margin="5" Click="DeleteSettingsButton_Click" Style="{StaticResource StandartExitButtonStyle}"/>

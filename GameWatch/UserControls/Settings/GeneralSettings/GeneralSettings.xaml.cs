@@ -30,6 +30,7 @@ namespace GameWatch.UserControls.Settings
         private WindowContext _context;
         private SettingsView _parent;
         private Brush _defaultTextboxBackground;
+        private Brush _defaultComboboxForeground;
 
         public GeneralSettings(WindowContext context, SettingsView parent)
         {
@@ -39,8 +40,13 @@ namespace GameWatch.UserControls.Settings
             RunAtStartupCheckbox.IsChecked = _context.Settings.RunAtStartup;
             ResetWatchersCheckbox.IsChecked = _context.Settings.ResetWatchersWhenClosingSettings;
             _defaultTextboxBackground = RefreshRateTextbox.Background;
+            _defaultComboboxForeground = WatcherResetOptionsCombobox.Foreground;
             RefreshRateTextbox.Text = _context.Settings.RefreshRate.ToString();
             WindowFadeDelayTextbox.Text = _context.Settings.WindowFadeDelay.ToString();
+
+            for (int i = 1; i < WatcherResetOptionsConverter.WatcherResetOptionsNames.Length; i++)
+                WatcherResetOptionsCombobox.Items.Add(WatcherResetOptionsConverter.WatcherResetOptionsNames[i]);
+            WatcherResetOptionsCombobox.SelectedIndex = (int)_context.Settings.ResetOption - 1;
         }
 
         public bool IsValid()
@@ -52,6 +58,8 @@ namespace GameWatch.UserControls.Settings
             if (!InputHelper.IsTextboxValid(RefreshRateTextbox, res == TimeSpan.Zero, _defaultTextboxBackground))
                 isValid = false;
             if (!InputHelper.IsTextboxValid(WindowFadeDelayTextbox, !TimeSpan.TryParse(RefreshRateTextbox.Text, out res), _defaultTextboxBackground))
+                isValid = false;
+            if (!InputHelper.IsComboboxValid(WatcherResetOptionsCombobox, !(WatcherResetOptionsCombobox.SelectedIndex >= 0 && WatcherResetOptionsCombobox.SelectedIndex < WatcherResetOptionsConverter.WatcherResetOptionsNames.Length), _defaultComboboxForeground))
                 isValid = false;
             return isValid;
         }
@@ -66,6 +74,7 @@ namespace GameWatch.UserControls.Settings
                     _context.Settings.ResetWatchersWhenClosingSettings = (bool)ResetWatchersCheckbox.IsChecked;
                 if (RunAtStartupCheckbox.IsChecked != null)
                     _context.Settings.RunAtStartup = (bool)RunAtStartupCheckbox.IsChecked;
+                _context.Settings.ResetOption = (WatcherResetOptions)(WatcherResetOptionsCombobox.SelectedIndex + 1);
 
                 SetStartupSetting();
             }

@@ -25,4 +25,9 @@
     <SolidColorBrush x:Key="StandartTextboxBackgroundColor" Color="#FF3A3E46" />
 
     <SolidColorBrush x:Key="StandartScrollViewBackground" Color="#FF1F252F" />
+
+    <SolidColorBrush x:Key="StandartComboboxButtonBackColor" Color="#FF1B212E" />
+    <SolidColorBrush x:Key="StandartComboboxButtonForeColor" Color="White" />
+    <SolidColorBrush x:Key="StandartComboboxBorderBackgroundColor" Color="#FF3A3E46" />
+    <SolidColorBrush x:Key="StandartComboboxBackgroundColor" Color="#FF3A3E46" />
 </ResourceDictionary>
