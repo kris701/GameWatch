@@ -43,6 +43,7 @@
             <TextBox Grid.Column="1" x:Name="WindowFadeDelayTextbox" Margin="5" Style="{StaticResource StandartTextBoxStyle}"/>
             <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="Additional delay when the window looses focus and fades away."/>
         </Grid>
+        <GridSplitter Height="2" Background="#FF2D2D5F" HorizontalAlignment="Stretch"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -53,6 +54,9 @@
             <ComboBox x:Name="WatcherResetOptionsCombobox" Grid.Column="1" Margin="5" Style="{StaticResource StandartComboboxStyle}"/>
             <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="Setting for when the watchers should reset."/>
         </Grid>
+        <Button x:Name="ResetWatchersButton" Content="Reset all Watchers" Margin="5" Click="ResetWatchersButton_Click"  Style="{StaticResource StandartButtonStyle}" ToolTip="This will reset the time until the setting above takes effect."/>
+        <GridSplitter Height="2" Background="#FF2D2D5F" HorizontalAlignment="Stretch"/>
+        
         <Button x:Name="ExportSettingsButton" Content="Export Settings" Margin="5" Click="ExportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
         <Button x:Name="ImportSettingsButton" Content="Import Settings" Margin="5" Click="ImportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
         <Button x:Name="DeleteSettingsButton" Content="Delete Saved Settings" Margin="5" Click="DeleteSettingsButton_Click" Style="{StaticResource StandartExitButtonStyle}"/>

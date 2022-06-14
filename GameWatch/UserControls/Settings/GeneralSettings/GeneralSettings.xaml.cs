@@ -156,5 +156,11 @@ namespace GameWatch.UserControls.Settings
                 throw new Exception("");
             return System.IO.Path.GetDirectoryName(assembly.Location) + "\\" + WindowContext.SavePath;
         }
+
+        private void ResetWatchersButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var watched in _context.Watched)
+                watched.LastTick = DateTime.UtcNow;
+        }
     }
 }

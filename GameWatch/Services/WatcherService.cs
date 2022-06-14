@@ -93,7 +93,7 @@ namespace GameWatch.Services
             }
         }
 
-        private void ResetWatcher()
+        public void ResetWatcher()
         {
             WatchModelGroup.Passed = TimeSpan.Zero;
             WatchModelGroup.LastTick = DateTime.UtcNow;

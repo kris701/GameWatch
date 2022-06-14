@@ -14,5 +14,6 @@ namespace GameWatch.Services
         public void StartWatch();
         public void StopWatch();
         public void PauseWatch();
+        public void ResetWatcher();
     }
 }
