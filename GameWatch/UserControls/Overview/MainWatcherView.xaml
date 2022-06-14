@@ -13,7 +13,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
-            <Label Content="GameWatch" Style="{StaticResource StandartLabelStyle}"/>
+            <Button x:Name="GithubLinkButton" Content="GameWatch" Margin="5" Click="GithubLinkButton_Click" Style="{StaticResource StandartButtonStyle}" ToolTip="Link to GitHub page"/>
             <GridSplitter Width="2" Background="#FF2D2D5F"/>
             <Button x:Name="SettingsButton" Content="⚙️" Width="25" Click="SettingsButton_Click" Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Settings"/>
             <GridSplitter Width="2" Background="#FF2D2D5F"/>
