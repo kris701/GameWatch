@@ -1,5 +1,6 @@
 ﻿using GameWatch.Models;
 using GameWatch.Services;
+using GameWatch.UserControls.Overview;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,21 +30,19 @@ namespace GameWatch.UserControls
             Watcher = watchedProcess;
             Watcher.WatchModelGroup.Ticked += UpdateData;
             InitializeComponent();
+
             NameLabel.Content = watchedProcess.WatchModelGroup.UIName;
             StatusLabel.Content = watchedProcess.WatchModelGroup.Status;
             PassedTimeLabel.Content = watchedProcess.WatchModelGroup.Passed;
             AllowedTimeLabel.Content = watchedProcess.WatchModelGroup.Allowed;
-            UsedPercent.Content = Math.Round(((double)watchedProcess.WatchModelGroup.Passed.TotalSeconds / (double)watchedProcess.WatchModelGroup.Allowed.TotalSeconds) * 100,0);
-            ProgressBar.Minimum = 0;
-            ProgressBar.Maximum = watchedProcess.WatchModelGroup.Allowed.TotalSeconds;
-            ProgressBar.Value = watchedProcess.WatchModelGroup.Passed.TotalSeconds;
+
+            PieChart.UpdateChart(watchedProcess.WatchModelGroup.Passed.TotalSeconds, watchedProcess.WatchModelGroup.Allowed.TotalSeconds);
         }
 
         private void UpdateData()
         {
             PassedTimeLabel.Content = Watcher.WatchModelGroup.Passed;
-            ProgressBar.Value = Watcher.WatchModelGroup.Passed.TotalSeconds;
-            UsedPercent.Content = Math.Round(((double)Watcher.WatchModelGroup.Passed.TotalSeconds / (double)Watcher.WatchModelGroup.Allowed.TotalSeconds) * 100, 0);
+            PieChart.UpdateChart(Watcher.WatchModelGroup.Passed.TotalSeconds, Watcher.WatchModelGroup.Allowed.TotalSeconds);
             StatusLabel.Content = Watcher.WatchModelGroup.Status;
         }
 

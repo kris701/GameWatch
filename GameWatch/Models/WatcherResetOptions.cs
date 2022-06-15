@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace GameWatch.Models
 {
-    public enum WatcherResetOptions { None, ResetOverMidnight, ResetAfter24h, ResetAfter12h }
+    public enum WatcherResetOptions { None, ResetOverMidnight, ResetAfter24h, ResetAfter12h, OnStartup }
     public static class WatcherResetOptionsConverter
     {
-        public static string[] WatcherResetOptionsNames = new string[] { "Null", "Over Midnight", "After 24 hours", "After 12 hours" };
+        public static string[] WatcherResetOptionsNames = new string[] { "Null", "Over Midnight", "After 24 hours", "After 12 hours", "On Startup" };
     }
 }

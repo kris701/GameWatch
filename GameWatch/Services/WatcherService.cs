@@ -14,6 +14,7 @@ namespace GameWatch.Services
     internal class WatcherService : IWatcherService
     {
         private DispatcherTimer _dispatcherTimer = new DispatcherTimer();
+        private bool _haveReset = false;
 
         public SettingsModel Settings { get; }
         public WatchedProcessGroup WatchModelGroup { get; }
@@ -25,6 +26,8 @@ namespace GameWatch.Services
 
             _dispatcherTimer.Tick += Ticker;
             _dispatcherTimer.Interval = Settings.RefreshRate;
+
+            DetermineIfResetIsNeeded();
         }
 
         public void StartWatch()
@@ -89,6 +92,11 @@ namespace GameWatch.Services
                 case WatcherResetOptions.ResetAfter12h:
                     if (DateTime.UtcNow >= WatchModelGroup.LastTick.AddHours(24))
                         ResetWatcher();
+                    break;
+                case WatcherResetOptions.OnStartup:
+                    if (!_haveReset)
+                        ResetWatcher();
+                    _haveReset = true;
                     break;
             }
         }

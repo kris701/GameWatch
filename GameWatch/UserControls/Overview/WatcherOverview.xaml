@@ -3,32 +3,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GameWatch.UserControls"
+             xmlns:local="clr-namespace:GameWatch.UserControls" xmlns:overview="clr-namespace:GameWatch.UserControls.Overview"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="400" Margin="5">
-    <StackPanel Background="#FF3E4858">
-        <StackPanel Orientation="Horizontal" Height="33">
-            <Button x:Name="StartButton" Content="▶" Width="25" Click="StartButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Start this watcher"/>
-            <Button x:Name="PauseButton" Content="⏸" Width="25" Click="PauseButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Pause this wathcer"/>
-            <Button x:Name="StopButton" Content="⏹" Width="25" Click="StopButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Stop this watcher (resets counter)"/>
+             d:DesignHeight="200" d:DesignWidth="600" Margin="5">
+    <Grid Background="#FF3E4858">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="120"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel>        
+            <StackPanel Orientation="Horizontal" Height="33">
+                <Button x:Name="StartButton" Content="▶" Width="25" Click="StartButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Start this watcher"/>
+                <Button x:Name="PauseButton" Content="⏸" Width="25" Click="PauseButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Pause this wathcer"/>
+                <Button x:Name="StopButton" Content="⏹" Width="25" Click="StopButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Stop this watcher (resets counter)"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Name:" FontSize="20" Style="{StaticResource StandartLabelStyle}"/>
+                <Label x:Name="NameLabel" Content="x" FontSize="20" Style="{StaticResource StandartLabelStyle}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Status:" Style="{StaticResource StandartLabelStyle}"/>
+                <Label x:Name="StatusLabel" Content="x" Style="{StaticResource StandartLabelStyle}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Have used" Style="{StaticResource StandartLabelStyle}"/>
+                <Label x:Name="PassedTimeLabel" Content="x" Style="{StaticResource StandartLabelStyle}"/>
+                <Label Content="out of" Style="{StaticResource StandartLabelStyle}"/>
+                <Label x:Name="AllowedTimeLabel" Content="x" Style="{StaticResource StandartLabelStyle}"/>
+                <Label Content="allowed time" Style="{StaticResource StandartLabelStyle}"/>
+            </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Name:" FontSize="20" Style="{StaticResource StandartLabelStyle}"/>
-            <Label x:Name="NameLabel" Content="x" FontSize="20" Style="{StaticResource StandartLabelStyle}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Status:" Style="{StaticResource StandartLabelStyle}"/>
-            <Label x:Name="StatusLabel" Content="x" Style="{StaticResource StandartLabelStyle}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Have used" Style="{StaticResource StandartLabelStyle}"/>
-            <Label x:Name="PassedTimeLabel" Content="x" Style="{StaticResource StandartLabelStyle}"/>
-            <Label Content="out of" Style="{StaticResource StandartLabelStyle}"/>
-            <Label x:Name="AllowedTimeLabel" Content="x" Style="{StaticResource StandartLabelStyle}"/>
-            <Label Content="allowed time," Style="{StaticResource StandartLabelStyle}"/>
-            <Label x:Name="UsedPercent" Content="x" Style="{StaticResource StandartLabelStyle}"/>
-            <Label Content="%" Style="{StaticResource StandartLabelStyle}"/>
-        </StackPanel>
-        <ProgressBar x:Name="ProgressBar" Height="20" Background="Transparent"/>
-    </StackPanel>
+
+        <overview:PieChartControl x:Name="PieChart" Grid.Column="1" Height="110" Width="110" Margin="5"/>
+    </Grid>
 </UserControl>
