@@ -11,8 +11,14 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-        <StackPanel>        
+        <Canvas x:Name="StatusCanvas" Grid.ColumnSpan="2" Background="Red"/>
+
+        <StackPanel Grid.Row="1">        
             <StackPanel Orientation="Horizontal" Height="33">
                 <Button x:Name="StartButton" Content="▶" Width="25" Click="StartButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Start this watcher"/>
                 <Button x:Name="PauseButton" Content="⏸" Width="25" Click="PauseButton_Click"  Margin="5" Style="{StaticResource StandartButtonStyle}" ToolTip="Pause this wathcer"/>
@@ -35,6 +41,6 @@
             </StackPanel>
         </StackPanel>
 
-        <overview:PieChartControl x:Name="PieChart" Grid.Column="1" Height="110" Width="110" Margin="5"/>
+        <overview:PieChartControl x:Name="PieChart" Grid.Row="1" Grid.Column="1" Height="110" Width="110" Margin="5"/>
     </Grid>
 </UserControl>

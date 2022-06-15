@@ -35,6 +35,7 @@ namespace GameWatch.UserControls
             StatusLabel.Content = watchedProcess.WatchModelGroup.Status;
             PassedTimeLabel.Content = watchedProcess.WatchModelGroup.Passed;
             AllowedTimeLabel.Content = watchedProcess.WatchModelGroup.Allowed;
+            SetStatusCanvasColor(Watcher.WatchModelGroup.Status);
 
             PieChart.UpdateChart(watchedProcess.WatchModelGroup.Passed.TotalSeconds, watchedProcess.WatchModelGroup.Allowed.TotalSeconds);
         }
@@ -44,6 +45,7 @@ namespace GameWatch.UserControls
             PassedTimeLabel.Content = Watcher.WatchModelGroup.Passed;
             PieChart.UpdateChart(Watcher.WatchModelGroup.Passed.TotalSeconds, Watcher.WatchModelGroup.Allowed.TotalSeconds);
             StatusLabel.Content = Watcher.WatchModelGroup.Status;
+            SetStatusCanvasColor(Watcher.WatchModelGroup.Status);
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
@@ -59,6 +61,17 @@ namespace GameWatch.UserControls
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             Watcher.StopWatch();
+        }
+
+        private void SetStatusCanvasColor(WatcherStatus status)
+        {
+            switch (status)
+            {
+                case WatcherStatus.Paused: StatusCanvas.Background = Brushes.DarkOrange; break;
+                case WatcherStatus.Stopped: StatusCanvas.Background = Brushes.DarkRed; break;
+                case WatcherStatus.Searching: StatusCanvas.Background = Brushes.DarkOliveGreen; break;
+                case WatcherStatus.Counting: StatusCanvas.Background = Brushes.DarkGreen; break;
+            }
         }
     }
 }
