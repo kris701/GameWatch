@@ -36,6 +36,7 @@ namespace GameWatch.Helpers
             }
             var newContext = IOHelper.LoadJsonObject<WindowContext>($"{PresetPath}/{name}.json");
             if (newContext != null) {
+                context.IsReadOnly = newContext.IsReadOnly;
                 context.Name = newContext.Name;
                 context.Settings = newContext.Settings;
                 context.Watched = newContext.Watched;
@@ -81,6 +82,7 @@ namespace GameWatch.Helpers
             if (!File.Exists($"{PresetPath}/{_defaultPresetName}.json"))
             {
                 var newContext = new WindowContext("Default");
+                newContext.IsReadOnly = true;
                 SavePreset(newContext);
             }
         }

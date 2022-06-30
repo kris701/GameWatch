@@ -52,6 +52,17 @@ namespace GameWatch.UserControls
             GeneralSettingsExpander.Content = _generalSettings;
             WatchersSettingsExpander.Content = _watchersSettings;
             PresetSettingsExpander.Content = _presetSettings;
+
+            if (context.IsReadOnly)
+            {
+                GeneralSettingsExpander.IsEnabled = false;
+                WatchersSettingsExpander.IsEnabled = false;
+            }
+            else
+            {
+                GeneralSettingsExpander.IsEnabled = true;
+                WatchersSettingsExpander.IsEnabled = true;
+            }
         }
 
         private async void AcceptButton_Click(object sender, RoutedEventArgs e)

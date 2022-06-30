@@ -12,6 +12,7 @@ namespace GameWatch.Models
 {
     public class WindowContext
     {
+        public bool IsReadOnly { get; set; }
         public string Name { get; set; }
         public List<WatchedProcessGroup> Watched { get; set; }
         [JsonIgnore]
@@ -20,6 +21,7 @@ namespace GameWatch.Models
 
         public WindowContext(string name)
         {
+            IsReadOnly = false;
             Watched = new List<WatchedProcessGroup>();
             Watchers = new List<IWatcherService>();
             Settings = new SettingsModel();

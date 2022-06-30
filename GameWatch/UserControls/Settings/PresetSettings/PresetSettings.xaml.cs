@@ -37,6 +37,15 @@ namespace GameWatch.UserControls.PresetSettings
             _parent = parent;
             _context = context;
             PresetNameTextbox.Text = _context.Name;
+
+            if (context.IsReadOnly)
+            {
+                DeleteSettingsButton.IsEnabled = false;
+            }
+            else
+            {
+                DeleteSettingsButton.IsEnabled = true;
+            }
         }
 
         private void ExportSettingsButton_Click(object sender, RoutedEventArgs e)
