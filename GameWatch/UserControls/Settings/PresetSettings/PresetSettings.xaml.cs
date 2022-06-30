@@ -121,11 +121,7 @@ namespace GameWatch.UserControls.PresetSettings
             var newPresetName = $"New Preset {rnd.Next(0, 99999)}";
 
             PresetSaverHelper.SavePreset(
-                new WindowContext(
-                    new List<WatchedProcessGroup>(),
-                    new List<Services.IWatcherService>(),
-                    new SettingsModel(),
-                    newPresetName));
+                new WindowContext(newPresetName));
             PresetSaverHelper.LoadPreset(_context, newPresetName);
             await _parent.ResetView();
         }

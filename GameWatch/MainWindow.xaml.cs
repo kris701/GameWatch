@@ -35,7 +35,7 @@ namespace GameWatch
         public MainWindow()
         {
             InitializeComponent();
-            _context = new WindowContext(new List<WatchedProcessGroup>(), new List<IWatcherService>(), new SettingsModel(), "Default");
+            _context = new WindowContext("Default");
         }
 
         public async Task SwitchView(TrayWindowSwitchable toElement)

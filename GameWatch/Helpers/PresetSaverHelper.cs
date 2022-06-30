@@ -80,7 +80,7 @@ namespace GameWatch.Helpers
         {
             if (!File.Exists($"{PresetPath}/{_defaultPresetName}.json"))
             {
-                var newContext = new WindowContext(new List<WatchedProcessGroup>(), new List<Services.IWatcherService>(), new SettingsModel(), "Default");
+                var newContext = new WindowContext("Default");
                 SavePreset(newContext);
             }
         }
