@@ -89,5 +89,10 @@ namespace GameWatch.UserControls
         {
             await _trayWindow.SwitchView(new MainWatcherView(_context, _trayWindow));
         }
+
+        public async Task ResetView()
+        {
+            await _trayWindow.SwitchView(new SettingsView(_context, _trayWindow));
+        }
     }
 }

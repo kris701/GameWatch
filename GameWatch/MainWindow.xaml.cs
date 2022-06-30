@@ -35,7 +35,7 @@ namespace GameWatch
         public MainWindow()
         {
             InitializeComponent();
-            _context = new WindowContext(new List<WatchedProcessGroup>(), new List<IWatcherService>(), new SettingsModel());
+            _context = new WindowContext(new List<WatchedProcessGroup>(), new List<IWatcherService>(), new SettingsModel(), "Default");
         }
 
         public async Task SwitchView(TrayWindowSwitchable toElement)
@@ -53,7 +53,7 @@ namespace GameWatch
 
         public void SaveContext()
         {
-            _context.SaveContext();
+            PresetSaverHelper.SavePreset(_context);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -64,14 +64,14 @@ namespace GameWatch
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             NotifyIcon.Icon = new System.Drawing.Icon("gamewatchicon.ico");
-            if (!Directory.Exists(WindowContext.SavePath))
+            if (!Directory.Exists(PresetSaverHelper.PresetPath))
             {
                 _context.Settings.WindowFadeDelay = TimeSpan.FromSeconds(60);
                 await SwitchView(new WelcomeView(_context, this));
             }
             else
             {
-                _context.LoadContext();
+                PresetSaverHelper.LoadPreset(_context, Properties.Settings.Default.PresetName);
                 Visibility = Visibility.Hidden;
                 BlurHelper.EnableBlur(this);
                 await SwitchView(new MainWatcherView(_context, this));
