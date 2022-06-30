@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="GameWatch.UserControls.PresetSettings.PresetSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GameWatch.UserControls.Settings"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Switch Preset" Style="{StaticResource StandartLabelStyle}"/>
+            <ComboBox x:Name="SettingsPresetCombobox" Grid.Column="1" Margin="5" SelectionChanged="SettingsPresetCombobox_SelectionChanged" DropDownOpened="SettingsPresetCombobox_DropDownOpened" Style="{StaticResource StandartComboboxStyle}"/>
+            <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="Current preset"/>
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Preset Name" Style="{StaticResource StandartLabelStyle}"/>
+            <TextBox x:Name="PresetNameTextbox" Grid.Column="1" Margin="5" LostFocus="PresetNameTextbox_LostFocus" Style="{StaticResource StandartTextBoxStyle}"/>
+            <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="Name of this preset"/>
+        </Grid>
+
+        <Button x:Name="AddNewPresetButton" Content="Add new Preset" Margin="5" Click="AddNewPresetButton_Click" Style="{StaticResource StandartButtonStyle}"/>
+        <Button x:Name="ExportSettingsButton" Content="Export Preset" Margin="5" Click="ExportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
+        <Button x:Name="ImportSettingsButton" Content="Import Preset" Margin="5" Click="ImportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
+        <Button x:Name="DeleteSettingsButton" Content="Delete Preset" Margin="5" Click="DeleteSettingsButton_Click" Style="{StaticResource StandartExitButtonStyle}"/>
+    </StackPanel>
+</UserControl>

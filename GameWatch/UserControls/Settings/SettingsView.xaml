@@ -26,6 +26,8 @@
                         If you dont want to save changes, you can click cancel and return to the previous view without saving.
                     </TextBlock>
                 </Expander>
+                <Expander x:Name="PresetSettingsExpander" Header="Presets" Margin="5" Background="#FF444852" IsExpanded="true" Style="{StaticResource StandartExpanderStyle}">
+                </Expander>
                 <Expander x:Name="GeneralSettingsExpander" Header="General" Margin="5" Background="#FF444852" IsExpanded="true" Style="{StaticResource StandartExpanderStyle}">
                 </Expander>
 

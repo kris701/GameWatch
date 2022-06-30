@@ -57,31 +57,5 @@
         <Button x:Name="ResetWatchersButton" Content="Reset all Watchers" Margin="5" Click="ResetWatchersButton_Click"  Style="{StaticResource StandartButtonStyle}" ToolTip="This will reset the time until the setting above takes effect."/>
         <GridSplitter Height="2" Background="#FF2D2D5F" HorizontalAlignment="Stretch"/>
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="25"/>
-            </Grid.ColumnDefinitions>
-            <Label Content="Current Preset" Style="{StaticResource StandartLabelStyle}"/>
-            <ComboBox x:Name="SettingsPresetCombobox" Grid.Column="1" Margin="5" SelectionChanged="SettingsPresetCombobox_SelectionChanged" DropDownOpened="SettingsPresetCombobox_DropDownOpened" Style="{StaticResource StandartComboboxStyle}"/>
-            <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="Current preset"/>
-        </Grid>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="25"/>
-            </Grid.ColumnDefinitions>
-            <Label Content="Preset Name" Style="{StaticResource StandartLabelStyle}"/>
-            <TextBox x:Name="PresetNameTextbox" Grid.Column="1" Margin="5" LostFocus="PresetNameTextbox_LostFocus" Style="{StaticResource StandartTextBoxStyle}"/>
-            <Label Grid.Column="2" Content="?" Style="{StaticResource StandartLabelStyle}" ToolTip="Name of this preset"/>
-        </Grid>
-
-        <Button x:Name="AddNewPresetButton" Content="Add new Preset" Margin="5" Click="AddNewPresetButton_Click" Style="{StaticResource StandartButtonStyle}"/>
-        <Button x:Name="ExportSettingsButton" Content="Export Preset" Margin="5" Click="ExportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
-        <Button x:Name="ImportSettingsButton" Content="Import Preset" Margin="5" Click="ImportSettingsButton_Click" Style="{StaticResource StandartButtonStyle}"/>
-        <Button x:Name="DeleteSettingsButton" Content="Delete Preset" Margin="5" Click="DeleteSettingsButton_Click" Style="{StaticResource StandartExitButtonStyle}"/>
     </StackPanel>
 </UserControl>

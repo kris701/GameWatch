@@ -28,14 +28,12 @@ namespace GameWatch.UserControls.Settings
     public partial class GeneralSettings : UserControl, ValidatorControl
     {
         private WindowContext _context;
-        private SettingsView _parent;
         private Brush _defaultTextboxBackground;
         private Brush _defaultComboboxForeground;
 
-        public GeneralSettings(WindowContext context, SettingsView parent)
+        public GeneralSettings(WindowContext context)
         {
             InitializeComponent();
-            _parent = parent;
             _context = context;
             RunAtStartupCheckbox.IsChecked = _context.Settings.RunAtStartup;
             ResetWatchersCheckbox.IsChecked = _context.Settings.ResetWatchersWhenClosingSettings;
@@ -43,7 +41,6 @@ namespace GameWatch.UserControls.Settings
             _defaultComboboxForeground = WatcherResetOptionsCombobox.Foreground;
             RefreshRateTextbox.Text = _context.Settings.RefreshRate.ToString();
             WindowFadeDelayTextbox.Text = _context.Settings.WindowFadeDelay.ToString();
-            PresetNameTextbox.Text = _context.Name;
 
             for (int i = 1; i < WatcherResetOptionsConverter.WatcherResetOptionsNames.Length; i++)
                 WatcherResetOptionsCombobox.Items.Add(WatcherResetOptionsConverter.WatcherResetOptionsNames[i]);
@@ -62,8 +59,6 @@ namespace GameWatch.UserControls.Settings
                 isValid = false;
             if (!InputHelper.IsComboboxValid(WatcherResetOptionsCombobox, !(WatcherResetOptionsCombobox.SelectedIndex >= 0 && WatcherResetOptionsCombobox.SelectedIndex < WatcherResetOptionsConverter.WatcherResetOptionsNames.Length), _defaultComboboxForeground))
                 isValid = false;
-            if (!InputHelper.IsTextboxValid(PresetNameTextbox, PresetNameTextbox.Text == "", _defaultTextboxBackground))
-                isValid = false;
             return isValid;
         }
 
@@ -78,7 +73,6 @@ namespace GameWatch.UserControls.Settings
                 if (RunAtStartupCheckbox.IsChecked != null)
                     _context.Settings.RunAtStartup = (bool)RunAtStartupCheckbox.IsChecked;
                 _context.Settings.ResetOption = (WatcherResetOptions)(WatcherResetOptionsCombobox.SelectedIndex + 1);
-                _context.Name = PresetNameTextbox.Text;
 
                 SetStartupSetting();
             }
@@ -102,98 +96,10 @@ namespace GameWatch.UserControls.Settings
                     module.FileName);
         }
 
-        private void ExportSettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.AddExtension = true;
-            saveFileDialog.DefaultExt = ".json";
-            saveFileDialog.Filter = "Json file (*.json) | *.json";
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                if (File.Exists(saveFileDialog.FileName))
-                    File.Delete(saveFileDialog.FileName);
-                PresetSaverHelper.SavePreset(_context);
-            }
-        }
-
-        private async void ImportSettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new ConfirmationWindow("This action will remove all current settings. If a preset have the same name as the file you pick, the preset will be overwritten.");
-            window.ShowDialog();
-            if (window.Action == ConfirmationAction.Ok)
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.DefaultExt = ".zip";
-                openFileDialog.Filter = "Zip file (*.zip) | *.zip";
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    PresetSaverHelper.LoadNewPreset(_context, openFileDialog.FileName);
-                    await _parent.SwitchView();
-                }
-            }
-        }
-
-        private async void DeleteSettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new ConfirmationWindow("This action will remove all current settings.");
-            window.ShowDialog();
-            if (window.Action == ConfirmationAction.Ok)
-            {
-                PresetSaverHelper.DeletePreset(_context.Name);
-                PresetSaverHelper.LoadDefaultPreset(_context);
-                await _parent.ResetView();
-            }
-        }
-
         private void ResetWatchersButton_Click(object sender, RoutedEventArgs e)
         {
             foreach (var watched in _context.Watched)
                 watched.LastTick = DateTime.UtcNow;
-        }
-
-        private async void SettingsPresetCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is ComboBox combobox && combobox.SelectedItem != null)
-            {
-                var newItem = combobox.SelectedItem.ToString();
-                if (newItem != null) {
-                    PresetSaverHelper.LoadPreset(_context, newItem);
-                    Properties.Settings.Default.PresetName = newItem;
-                    await _parent.ResetView();
-                }
-            }
-        }
-
-        private void SettingsPresetCombobox_DropDownOpened(object sender, EventArgs e)
-        {
-            SettingsPresetCombobox.Items.Clear();
-            foreach (var item in PresetSaverHelper.GetPresetNames())
-                SettingsPresetCombobox.Items.Add(item);
-        }
-
-        private async void AddNewPresetButton_Click(object sender, RoutedEventArgs e)
-        {
-            var rnd = new Random();
-            var newPresetName = $"New Preset {rnd.Next(0, 99999)}";
-
-            PresetSaverHelper.SavePreset(
-                new WindowContext(
-                    new List<WatchedProcessGroup>(),
-                    new List<Services.IWatcherService>(),
-                    new SettingsModel(),
-                    newPresetName));
-            PresetSaverHelper.LoadPreset(_context, newPresetName);
-            await _parent.ResetView();
-        }
-
-        private void PresetNameTextbox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (InputHelper.IsTextboxValid(PresetNameTextbox, PresetNameTextbox.Text == "", _defaultTextboxBackground))
-            {
-                PresetSaverHelper.DeletePreset(_context.Name);
-                _context.Name = PresetNameTextbox.Text;
-                PresetSaverHelper.SavePreset(_context);
-            }
         }
     }
 }

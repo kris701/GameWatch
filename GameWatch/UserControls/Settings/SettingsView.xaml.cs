@@ -2,6 +2,7 @@
 using GameWatch.Models;
 using GameWatch.UserControls.Overview;
 using GameWatch.UserControls.Settings;
+using GameWatch.UserControls.PresetSettings;
 using GameWatch.UserControls.Settings.WatchersSettings;
 using Microsoft.Win32;
 using System;
@@ -28,6 +29,7 @@ namespace GameWatch.UserControls
     public partial class SettingsView : UserControl, TrayWindowSwitchable
     {
         private GeneralSettings _generalSettings;
+        private PresetSettings.PresetSettings _presetSettings;
         private WatchersSettings _watchersSettings;
 
         private WindowContext _context;
@@ -43,11 +45,13 @@ namespace GameWatch.UserControls
             _trayWindow = trayWindow;
             Element = this;
 
-            _generalSettings = new GeneralSettings(context, this);
+            _generalSettings = new GeneralSettings(context);
             _watchersSettings = new WatchersSettings(context);
+            _presetSettings = new PresetSettings.PresetSettings(context, this);
 
             GeneralSettingsExpander.Content = _generalSettings;
             WatchersSettingsExpander.Content = _watchersSettings;
+            PresetSettingsExpander.Content = _presetSettings;
         }
 
         private async void AcceptButton_Click(object sender, RoutedEventArgs e)
@@ -77,6 +81,7 @@ namespace GameWatch.UserControls
             {
                 GeneralSettingsExpander.IsExpanded = true;
                 WatchersSettingsExpander.IsExpanded = true;
+                PresetSettingsExpander.IsExpanded = true;
             }
         }
 
