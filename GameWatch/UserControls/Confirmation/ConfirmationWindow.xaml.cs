@@ -1,4 +1,5 @@
 ﻿using GameWatch.Helpers;
+using GameWatch.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,18 @@ namespace GameWatch.UserControls.Confirmation
     /// </summary>
     public partial class ConfirmationWindow : Window
     {
+        private WindowContext _context;
+        private TimeSpan _originalDelay;
+
         public ConfirmationAction Action { get; internal set; }
-        public ConfirmationWindow(string text)
+        public ConfirmationWindow(WindowContext context, string text)
         {
             Opacity = 0;
             InitializeComponent();
             TitleLabel.Content = text;
+            _context = context;
+            _originalDelay = _context.Settings.WindowFadeDelay;
+            _context.Settings.WindowFadeDelay = TimeSpan.FromDays(30);
         }
 
         private async void AcceptButton_Click(object sender, RoutedEventArgs e)
@@ -49,6 +56,7 @@ namespace GameWatch.UserControls.Confirmation
         private async Task CloseWindow()
         {
             await FadeHelper.FadeOut(this, 0.05, 10);
+            _context.Settings.WindowFadeDelay = _originalDelay;
             Close();
         }
     }

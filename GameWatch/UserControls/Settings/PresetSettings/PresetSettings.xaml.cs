@@ -41,6 +41,8 @@ namespace GameWatch.UserControls.PresetSettings
 
         private void ExportSettingsButton_Click(object sender, RoutedEventArgs e)
         {
+            var orgDelay = _context.Settings.WindowFadeDelay;
+            _context.Settings.WindowFadeDelay = TimeSpan.FromDays(30);
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.AddExtension = true;
             saveFileDialog.DefaultExt = ".json";
@@ -49,30 +51,35 @@ namespace GameWatch.UserControls.PresetSettings
             {
                 if (File.Exists(saveFileDialog.FileName))
                     File.Delete(saveFileDialog.FileName);
-                PresetSaverHelper.SavePreset(_context);
+                PresetSaverHelper.SavePreset(_context, saveFileDialog.FileName);
             }
+            _context.Settings.WindowFadeDelay = orgDelay;
         }
 
         private async void ImportSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            var window = new ConfirmationWindow("This action will remove all current settings. If a preset have the same name as the file you pick, the preset will be overwritten.");
+            var window = new ConfirmationWindow(_context, "This action will remove all current settings. If a preset have the same name as the file you pick, the preset will be overwritten.");
             window.ShowDialog();
             if (window.Action == ConfirmationAction.Ok)
             {
+                var orgDelay = _context.Settings.WindowFadeDelay;
+                _context.Settings.WindowFadeDelay = TimeSpan.FromDays(30);
                 OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.DefaultExt = ".zip";
-                openFileDialog.Filter = "Zip file (*.zip) | *.zip";
+                openFileDialog.DefaultExt = ".json";
+                openFileDialog.Filter = "Json file (*.json) | *.json";
                 if (openFileDialog.ShowDialog() == true)
                 {
                     PresetSaverHelper.LoadNewPreset(_context, openFileDialog.FileName);
-                    await _parent.SwitchView();
+                    _context.Settings.WindowFadeDelay = orgDelay;
+                    await _parent.ResetView();
                 }
+                _context.Settings.WindowFadeDelay = orgDelay;
             }
         }
 
         private async void DeleteSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            var window = new ConfirmationWindow("This action will remove all current settings.");
+            var window = new ConfirmationWindow(_context, "This action will remove all current settings.");
             window.ShowDialog();
             if (window.Action == ConfirmationAction.Ok)
             {

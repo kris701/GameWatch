@@ -20,6 +20,11 @@ namespace GameWatch.Helpers
             IOHelper.SaveJsonObject($"{PresetPath}/{context.Name}.json", context);
         }
 
+        public static void SavePreset(WindowContext context, string path)
+        {
+            IOHelper.SaveJsonObject(path, context);
+        }
+
         public static void LoadPreset(WindowContext context, string name)
         {
             if (!Directory.Exists(PresetPath))
@@ -60,24 +65,15 @@ namespace GameWatch.Helpers
             if (!File.Exists(path))
                 throw new IOException("Could not find the requested preset!");
 
-            CopyNewPresetToPresetFolder(path);
+            var newContext = IOHelper.LoadJsonObject<WindowContext>(path);
+            if (newContext != null)
+            {
+                if (File.Exists($"{PresetPath}/{newContext.Name}.json"))
+                    File.Delete($"{PresetPath}/{newContext.Name}.json");
+                File.Copy(path, $"{PresetPath}/{newContext.Name}.json");
 
-            var fileInfo = new FileInfo(path);
-            LoadPreset(context, fileInfo.Name);
-        }
-
-        public static void CopyNewPresetToPresetFolder(string path)
-        {
-            if (!Directory.Exists(PresetPath))
-                Directory.CreateDirectory(PresetPath);
-            if (!File.Exists(path))
-                throw new IOException("Could not find the requested preset!");
-
-            var fileInfo = new FileInfo(path);
-            string newFilePath = $"{PresetPath}/{fileInfo.Name}.json";
-            if (File.Exists(newFilePath))
-                File.Delete(newFilePath);
-            File.Copy(path, newFilePath);
+                LoadPreset(context, newContext.Name);
+            }
         }
 
         private static void GenerateDefaultPresetIfNotThere()
